@@ -3,8 +3,8 @@
 ## Group T0xG0y
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Ruben Esteves| 202006479 | 202006479@up.pt               |
+| Miguel Dionisio         | 202108788 | 202108788@up.pt                |
 
 ----
 
