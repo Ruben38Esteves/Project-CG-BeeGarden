@@ -9,3 +9,9 @@ we added some optinos to the interface to move each of the pieces of the tangram
 After that we just took those values and applied the to the pieces 
 
 ![Screenshot 1](screenshots/cg-t12g06-tp2-1.png)
+
+
+- Creating the cube wasn't hard. It helps to keep track of where each vertex is located by using comments and which triangles correspond to each of the faces.
+Atatching the cube to the tangram and placing the top left vertex of the cube on the origin was also pretty straight forward.
+
+![Screenshot 2](screenshots/cg-t12g06-tp2-2.png)
