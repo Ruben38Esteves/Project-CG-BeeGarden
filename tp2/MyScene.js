@@ -1,9 +1,5 @@
 import { CGFscene, CGFcamera, CGFaxis } from "../lib/CGF.js";
-import { MyDiamond } from "./MyDiamond.js";
-import { MyTriangle } from "./MyTriangle.js";
-import { MyParallelogram } from "./MyParallelogram.js";
-import { MyTriangleSmall } from "./MyTriangleSmall.js";
-import { MyTriangleBig } from "./MyTriangleBig.js";
+import { MyTangram } from "./MyTangram.js";
 
 /**
  * MyScene
@@ -29,11 +25,7 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.diamond = new MyDiamond(this);
-    this.triangle = new MyTriangle(this)
-    this.parallelogram = new MyParallelogram(this);
-    this.triangleSmall = new MyTriangleSmall(this)
-    this.triangleBig = new MyTriangleBig(this)
+    this.tangram = new MyTangram(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -43,6 +35,10 @@ export class MyScene extends CGFscene {
     this.displayTriangleSmall = false;
     this.displayTriangleBig = false;
     this.scaleFactor = 1;
+    this.moveX = 0.1;
+    this.moveY = 0.1;
+    this.moveZ = 0.1;
+    this.rot = 0;
   }
   initLights() {
     this.lights[0].setPosition(15, 2, 5, 1);
@@ -78,6 +74,7 @@ export class MyScene extends CGFscene {
 
     // Draw axis
     if (this.displayAxis) this.axis.display();
+    
 
     this.setDefaultAppearance();
 
@@ -100,14 +97,24 @@ export class MyScene extends CGFscene {
       1.0,
     ];
 
-    this.multMatrix(sca);
 
-    // ---- BEGIN Primitive drawing section
-    if (this.displayDiamond) this.diamond.display();
-    if (this.displayTriangle) this.triangle.display();
-    if (this.displayParallelogram) this.parallelogram.display();
-    if (this.displayTriangleSmall) this.triangleSmall.display();
-    if (this.displayTriangleBig) this.triangleBig.display();
+    //used for MyDiamond
+    var trans = [
+      1,0,0,0,
+      0,1,0,0,
+      0,0,1,0,
+      this.moveX,this.moveY,this.moveZ,1
+    ]
+
+    //used by interface to help test values
+    this.tangram.translateX = this.moveX;
+    this.tangram.translateY = this.moveY;
+    this.tangram.rotation = this.rot;
+    
+    
+    this.multMatrix(sca);
+    this.tangram.display();
+
     // ---- END Primitive drawing section
   }
 }
