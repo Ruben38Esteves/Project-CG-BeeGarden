@@ -15,3 +15,8 @@ After that we just took those values and applied the to the pieces
 Atatching the cube to the tangram and placing the top left vertex of the cube on the origin was also pretty straight forward.
 
 ![Screenshot 2](screenshots/cg-t12g06-tp2-2.png)
+
+- With the use of the newly created MyQuad class, creating a cube was easier but since this new cube (MyUnitCubeQuad)
+ was centered on the origin (0,0,0) and the old one wasn't, when we replaced the old cube, the new one wasn't on the correct location.
+
+![Screenshot 3](screenshots/cg-t12g06-tp2-3.png)
