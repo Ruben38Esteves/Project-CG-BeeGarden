@@ -60,7 +60,7 @@ export class MyScene extends CGFscene {
   setDefaultAppearance() {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
-    this.setSpecular(0.2, 0.4, 0.8, 1.0);
+    this.setSpecular(0.2, 0.4, 0.8, 0.5);
     this.setShininess(10.0);
   }
   display() {
