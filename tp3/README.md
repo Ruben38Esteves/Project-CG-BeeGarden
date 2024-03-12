@@ -12,6 +12,10 @@
 
 ![Screenshot 2](screenshots/cg-t12g06-tp3-2.png)
 
-- For the most part, the development of the prism was simple, the most challenging part being the creation of the indices. We chose to display the normals in this screenshot to demonstrate the 20 stacks composing the length of the prism.
+- For the most part, the development of the prism was simple, the most challenging part being the creation of the indices. The lighting is calculated for each of the faces uniformly, making the figure very 'poliedral'. We chose to display the normals in this screenshot to demonstrate the 20 stacks composing the length of the prism.
 
 ![Screenshot 3](screenshots/cg-t12g06-tp3-3.png)
+
+- In the MyCylinder class we removed duplicate vertices, since we only need a single normal on them. The normals are now perpendicular to the tangents  of that point if the figure were a cylinder. The lighting is now much more seamless, making for a rounder appearence.
+
+![Screenshot 4](screenshots/cg-t12g06-tp3-4.png)
