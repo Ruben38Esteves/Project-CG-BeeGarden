@@ -7,3 +7,7 @@
 - After importing the files for the tangram and unit cube, we apllied the texture tangram.png to the tamgram and mapped each of its figures textCoords to the corresponding parts of the texture, resulting in a fully coloured tangram:
 
 ![Screenshot 1](screenshots/cg-t12g06-tp4-1.png)
+
+- Now we applied differant textures to each of the cubes faces so that it ressembles a minecraft grass block:
+
+![Screenshot 2](screenshots/cg-t12g06-tp4-2.png)

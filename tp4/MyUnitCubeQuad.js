@@ -1,4 +1,4 @@
-import {CGFobject} from '../lib/CGF.js';
+import {CGFobject, CGFtexture} from '../lib/CGF.js';
 import { MyQuad } from './MyQuad.js';
 /**
  * MyUnitCubeQuad
@@ -9,15 +9,17 @@ export class MyUnitCubeQuad extends CGFobject {
 	constructor(scene) {
 		super(scene);
 		this.initBuffers();
+        this.initObjects();
+        this.textureTop = new CGFtexture(this.scene, 'images/mineTop.png');
+        this.textureFront = new CGFtexture(this.scene, 'images/mineSide.png');
+        this.textureRight = new CGFtexture(this.scene, 'images/mineSide.png');
+        this.textureBack = new CGFtexture(this.scene, 'images/mineSide.png');
+        this.textureLeft = new CGFtexture(this.scene, 'images/mineSide.png');
+        this.textureBottom = new CGFtexture(this.scene, 'images/mineBottom.png');
 	}
 
     initObjects(){
-        this.lowerFace = new MyQuad(this.scene);
-        this.upperFace = new MyQuad(this.scene);
-        this.leftFace = new MyQuad(this.scene);
-        this.rigthFace = new MyQuad(this.scene);
-        this.frontFace = new MyQuad(this.scene);
-        this.backFace = new MyQuad(this.scene);
+        this.quad = new MyQuad(this.scene);
     }
 	
 	initBuffers() {
@@ -50,37 +52,58 @@ export class MyUnitCubeQuad extends CGFobject {
     }
 
     display(){
-        //lower
-        this.lowerFace.display();
-        //upper
-        this.scene.pushMatrix();
-        this.translate(0,1,0)
-        this.upperFace.display();
-        this.scene.popMatrix();
-        //left
-        this.scene.pushMatrix();
-        this.translate(-0.5,0.5,0);
-        this.rotate(90,0,0,1);
-        this.leftFace.display();
-        this.scene.popMatrix();
-        //right
-        this.scene.pushMatrix();
-        this.translate(0.5,0.5,0)
-        this.rotate(90,0,0,1);
-        this.rigthFace.display();
-        this.scene.popMatrix();
-        //front
-        this.scene.pushMatrix();
-        this.translate(0,0.5,0.5)
-        this.rotate(90,1,0,0);
-        this.frontFace.display();
-        this.scene.popMatrix();
-        //back
-        this.scene.pushMatrix();
-        this.translate(0,0.5,-0.5)
-        this.rotate(90,1,0,0);
-        this.backFace.display();
-        this.scene.popMatrix();
+        //Top
+        this.scene.pushMatrix()
+        this.scene.translate(0,0.5,0)
+        this.scene.rotate(3 * Math.PI/2 ,1, 0, 0)
+        this.textureTop.bind();
+        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+        this.quad.display()
+        this.scene.popMatrix()
+
+        //Front
+        this.scene.pushMatrix()
+        this.scene.translate(0.5, 0, 0)
+        this.scene.rotate(Math.PI / 2, 0, 1, 0)
+        this.textureFront.bind();
+        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+        this.quad.display()
+        this.scene.popMatrix()
+        
+        //Right
+        this.scene.pushMatrix()
+        this.scene.translate(0,0,-0.5)
+        this.scene.rotate(Math.PI,0, 1, 0)
+        this.textureRight.bind();
+        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+        this.quad.display()
+        this.scene.popMatrix()
+        
+        //Back
+        this.scene.pushMatrix()
+        this.scene.translate(-0.5, 0, 0)
+        this.scene.rotate(3 * Math.PI / 2, 0, 1, 0)
+        this.textureBack.bind();
+        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+        this.quad.display()
+        this.scene.popMatrix()
+        
+        //Left
+        this.scene.pushMatrix()
+        this.scene.translate(0,0,0.5)
+        this.textureLeft.bind();
+        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+        this.quad.display()
+        this.scene.popMatrix()
+
+        //Bottom
+        this.scene.pushMatrix()
+        this.scene.translate(0,-0.5,0)
+        this.scene.rotate(Math.PI/2 ,1, 0, 0)
+        this.textureBottom.bind();
+        this.scene.gl.texParameteri(this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST);
+        this.quad.display()
+        this.scene.popMatrix()
+    
     }
 }
-
