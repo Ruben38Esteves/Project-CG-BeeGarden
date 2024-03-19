@@ -6,4 +6,4 @@
 
 - After importing the files for the tangram and unit cube, we apllied the texture tangram.png to the tamgram and mapped each of its figures textCoords to the corresponding parts of the texture, resulting in a fully coloured tangram:
 
-![Screenshot 1](screenshots/2024-03-19-15:50:54-screenshot.png)
+![Screenshot 1](screenshots/cg-t12g06-tp4-1.png)
