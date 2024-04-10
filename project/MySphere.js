@@ -19,6 +19,7 @@ export class MySphere extends CGFobject {
 		this.normals = [];
 
 		let angle = (2 * Math.PI) / this.slices;
+        let angle_2 = Math.PI / this.stacks;
         let cutSize = (2* this.original_radius) / this.stacks;
         let radius = this.original_radius;
         // x = r cos angle
@@ -27,21 +28,22 @@ export class MySphere extends CGFobject {
 		
 
         for (let j = 0; j <= this.stacks; j++){
+            /*
             let o = Math.abs(j- (this.stacks / 2)) * cutSize;
-            console.log(o);
             if (o == 0) {
                 radius = this.original_radius;
             }else{
-                radius = o / Math.tan( Math.asin( o / this.original_radius ));
-                console.log(radius);
+                //radius = o / Math.tan( Math.asin( o / this.original_radius ));
             }
+            */
+            radius = this.original_radius * Math.sin(j * angle_2);
             for(let i = 0; i < this.slices; i++){
 				
 				let x=Math.cos(i*angle) * radius;
                 let y=Math.sin(i*angle) * radius;
 				
 				//vertices
-                this.vertices.push(x,-y,j*cutSize);
+                this.vertices.push(x,-y,/*j*cutSize*/ (this.original_radius * Math.cos(j * angle_2)));
 				
 
 				// assure 1 unit length
