@@ -1,75 +1,65 @@
-import {CGFobject} from '../lib/CGF.js';
-/**
- * MyQuad
- * @constructor
- * @param scene - Reference to MyScene object
- */
+import { CGFobject } from '../../lib/CGF.js';
+
 export class MySphere extends CGFobject {
-	constructor(scene, radius, slices, stacks)	{
+    constructor(scene, slices, stacks, inverted = false) {
         super(scene);
-        this.original_radius = radius;
-		this.slices = slices;
-		this.stacks = stacks;
-		this.initBuffers();
-	}
+        this.scene = scene;
+        this.slices = slices;
+        this.stacks = stacks;
+        this.inverted = inverted;
+        this.initBuffers();
+    }
 
-	initBuffers() {
-		this.vertices = [];
-		this.indices = [];
-		this.normals = [];
-
-		let angle = (2 * Math.PI) / this.slices;
-        let angle_2 = Math.PI / this.stacks;
-        let cutSize = (2* this.original_radius) / this.stacks;
-        let radius = this.original_radius;
-        // x = r cos angle
-        // y = r sin angle
-        // z = 
-		
-
-        for (let j = 0; j <= this.stacks; j++){
-            /*
-            let o = Math.abs(j- (this.stacks / 2)) * cutSize;
-            if (o == 0) {
-                radius = this.original_radius;
-            }else{
-                //radius = o / Math.tan( Math.asin( o / this.original_radius ));
-            }
-            */
-            radius = this.original_radius * Math.sin(j * angle_2);
-            for(let i = 0; i < this.slices; i++){
-				
-				let x=Math.cos(i*angle) * radius;
-                let y=Math.sin(i*angle) * radius;
-				
-				//vertices
-                this.vertices.push(x,-y,/*j*cutSize*/ (this.original_radius * Math.cos(j * angle_2)));
-				
-
-				// assure 1 unit length
-                let n = Math.sqrt(x*x + y*y);
-                let normalx = x / n;
-                let normaly = y / n;
     
-                this.normals.push(
-					normalx, -normaly, 0,
-					)
 
-                if (j != 0){
-                    //this.indices.push(j*this.slices + i, (j-1)*this.slices + i, (j-1) * this.slices + i-1);
-                    this.indices.push(this.slices*(j-1) + i, i-1 + this.slices*j, this.slices*j + i);
-                    this.indices.push(this.slices*(j-1) + i, this.slices*j + i, this.slices*(j-1)+i+1);
-                    
+    initBuffers() {
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+    
+        for (let stack = 0; stack <= this.stacks; stack++) {
+            let theta = stack*Math.PI / this.stacks;
+            let cosTheta = Math.cos(theta);
+            let sinTheta = Math.sin(theta);
+    
+            for (let slice=0; slice <= this.slices; slice++) {
+                let phi = 2*slice* Math.PI / this.slices;
+                let cosPhi = Math.cos(phi);
+                let sinPhi = Math.sin(phi);
+    
+                let x = cosPhi*sinTheta;
+                let y = cosTheta;
+                let z = sinPhi*sinTheta;
+                let u = 1 - (slice/this.slices);
+                let v = stack/this.stacks;
+    
+                this.vertices.push(x, y, z);
+                if (this.inverted) {
+                    this.normals.push(-x, -y, -z); 
+                } else {
+                    this.normals.push(x, y, z); 
                 }
-                
-                   
+                this.texCoords.push(u, v);
             }
-        		
-		//The defined indices (and corresponding vertices)
-		//will be read in groups of three to draw triangles
-		this.primitiveType = this.scene.gl.TRIANGLES;
-
-		this.initGLBuffers();
-	}
-}
+        }
+    
+        for (let stack = 0; stack < this.stacks; stack++) {
+            for (let slice = 0; slice < this.slices; slice++) {
+                let first = (stack * (this.slices + 1)) + slice;
+                let second = first + this.slices + 1;
+    
+                if (this.inverted) {
+                    this.indices.push(first, second, first + 1);
+                    this.indices.push(second, second + 1, first + 1);
+                } else {
+                    this.indices.push(first + 1, second, first);
+                    this.indices.push(first + 1, second + 1, second);
+                }
+            }
+        }
+    
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+    }
 }
