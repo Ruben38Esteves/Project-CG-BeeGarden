@@ -5,11 +5,12 @@ import {CGFobject} from '../lib/CGF.js';
  * @param scene - Reference to MyScene object
  */
 export class MyStem extends CGFobject {
-	constructor(scene, slices, stacks, radius)	{
+	constructor(scene, slices, stacks, radius, length)	{
         super(scene);
 		this.slices = slices;
 		this.stacks = stacks;
         this.radius = radius;
+        this.stem_length = length;
 		this.initBuffers();
 	}
 
@@ -19,7 +20,7 @@ export class MyStem extends CGFobject {
 		this.normals = [];
 
 		let angle = (2 * Math.PI) / this.slices;
-        let cutSize = 4 / this.stacks;
+        let cutSize = this.stem_length / this.stacks;
 		
 
         for (let j = 0; j <= this.stacks; j++){

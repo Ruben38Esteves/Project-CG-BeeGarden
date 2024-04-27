@@ -17,9 +17,10 @@ export class MyFlower extends CGFobject {
         this.stem_radius = stem_radius;
         this.stem_length = stem_length;
         this.stem_rotations = [];
+        this.stem_lengths = [];
         for(let a = 0; a < this.stem_length; a++){
             this.stem_rotations.push(Math.floor(Math.random() * 30));
-            console.log(this.stem_rotations[a]);
+            this.stem_lengths.push(Math.floor(Math.random() * 6) + 1);
         }
         this.petal_rotations = [];
         this.petal_curvatures = [];
@@ -34,7 +35,7 @@ export class MyFlower extends CGFobject {
     initObjects(){
         this.petal = new MyPetal(this.scene,60,this.outside_radius-this.receptacle_radius);
         this.receptacle = new MyReceptacle(this.scene,this.receptacle_radius,30,30);
-        this.stem = new MyStem(this.scene,30,30,this.stem_radius);
+        this.stem = new MyStem(this.scene,30,30,this.stem_radius,1);
         
     }
     
@@ -81,10 +82,13 @@ export class MyFlower extends CGFobject {
     }
 
     display(){
+        let hight = 0;
         // display stems
         if(this.stem_length > 1){
             this.scene.pushMatrix();
-            this.stem.display();
+            let new_stem = new MyStem(this.scene,30,30,this.stem_radius,this.stem_lengths[0]);
+            hight = this.stem_lengths[0];
+            new_stem.display();
             this.scene.popMatrix();
             for(let i = 1; i < this.stem_length;i++){
                 // petal
@@ -99,26 +103,30 @@ export class MyFlower extends CGFobject {
                 this.scene.pushMatrix();
                 //this.scene.rotate(this.degToRad(this.stem_rotations[i]),1,0,0);
                 //this.scene.rotate(this.degToRad(this.stem_rotations[i]),0,0,1);
-                this.scene.translate(0, i * 4 ,0);
-                this.stem.display();
+                this.scene.translate(0, hight ,0);
+                let new_stem = new MyStem(this.scene,30,30,this.stem_radius,this.stem_lengths[i]);
+                hight += this.stem_lengths[i];
+                new_stem.display();
                 this.scene.popMatrix();
             }
         }else{
             this.scene.pushMatrix();
-            this.stem.display();
+            let new_stem = new MyStem(this.scene,30,30,this.stem_radius,this.stem_lengths[0]);
+            hight = this.stem_lengths[0];
+            new_stem.display();
             this.scene.popMatrix();
         }
 
         
         // display receptacle
         this.scene.pushMatrix();
-        this.scene.translate(0, this.stem_length * 4, 0)
+        this.scene.translate(0, hight, 0)
         this.receptacle.display();
         this.scene.popMatrix();
         // display petals
         for(let j = 0; j < this.petal_amount; j++){
             this.scene.pushMatrix();
-            this.scene.translate(0, this.stem_length * 4, 0);
+            this.scene.translate(0, hight, 0);
             this.scene.rotate(((2*Math.PI)/this.petal_amount)*j,0,0,1);
             this.scene.translate(0,this.receptacle_radius,0);
             this.scene.rotate(this.degToRad(this.petal_rotations[j + (this.stem_length -1)]),1,0,0);
