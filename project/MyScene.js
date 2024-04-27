@@ -1,5 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
+import { MyPetal } from "./MyPetal.js";
 import { MyPlane } from "./MyPlane.js";
+import { MyReceptacle } from "./MyReceptacle.js";
 import { MySphere } from "./MySphere.js";
 import { MyPanorama } from "./myPanorama.js";
 
@@ -27,10 +29,13 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.plane = new MyPlane(this,30);
+    //this.plane = new MyPlane(this,30);
     this.sphere = new MySphere(this, 30, 30, 100, true);
     let panoTexture = new CGFtexture(this, "images/panorama.jpg")
     this.panorama = new MyPanorama(this, panoTexture);
+    //flower
+    this.petal = new MyPetal(this, 80, 4);
+    this.receptacle = new MyReceptacle(this, 3, 30,30);
 
 
   
@@ -94,13 +99,14 @@ export class MyScene extends CGFscene {
     this.translate(0,-100,0);
     this.scale(400,400,400);
     this.rotate(-Math.PI/2.0,1,0,0);
-    this.plane.display();
+    //this.plane.display();
     this.popMatrix();
 
 
     //display sphere
-    this.panorama.display();
-
+    //this.panorama.display();
+    //this.receptacle.display();
+    this.petal.display();
     // ---- END Primitive drawing section
   }
 }
