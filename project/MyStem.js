@@ -5,10 +5,12 @@ import {CGFobject} from '../lib/CGF.js';
  * @param scene - Reference to MyScene object
  */
 export class MyStem extends CGFobject {
-	constructor(scene, slices, stacks)	{
+	constructor(scene, slices, stacks, radius, length)	{
         super(scene);
 		this.slices = slices;
 		this.stacks = stacks;
+        this.radius = radius;
+        this.stem_length = length
 		this.initBuffers();
 	}
 
@@ -18,32 +20,32 @@ export class MyStem extends CGFobject {
 		this.normals = [];
 
 		let angle = (2 * Math.PI) / this.slices;
-        let cutSize = 1 / this.stacks;
+        let cutSize = this.stem_length / this.stacks;
 		
 
         for (let j = 0; j <= this.stacks; j++){
             for(let i = 0; i < this.slices; i++){
 				
-				let x=Math.cos(i*angle);
-                let y=Math.sin(i*angle);
+				let x=Math.cos(i*angle) * this.radius;
+                let z=Math.sin(i*angle) * this.radius;
 				
 				//vertices
-                this.vertices.push(x,-y,j*cutSize);
+                this.vertices.push(x,j*cutSize,-z);
 				
 
 				// assure 1 unit length
-                let n = Math.sqrt(x*x + y*y);
+                let n = Math.sqrt(x*x + z*z);
                 let normalx = x / n;
-                let normaly = y / n;
+                let normalz = z / n;
     
                 this.normals.push(
-					normalx, -normaly, 0,
+					normalx, 0, -normalz,
 					)
 
                 if (j != 0){
                     //this.indices.push(j*this.slices + i, (j-1)*this.slices + i, (j-1) * this.slices + i-1);
-                    this.indices.push(this.slices*(j-1) + i, i-1 + this.slices*j, this.slices*j + i);
-                    this.indices.push(this.slices*(j-1) + i, this.slices*j + i, this.slices*(j-1)+i+1);
+                    this.indices.push(this.slices*(j-1) + i, this.slices*(j-1)+i+1, this.slices*j + i);
+                    this.indices.push(this.slices*(j-1) + i, this.slices*j + i, i-1 + this.slices*j);
                     
                 }
                 
