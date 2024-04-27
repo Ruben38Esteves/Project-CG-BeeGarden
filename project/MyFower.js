@@ -92,7 +92,8 @@ export class MyFlower extends CGFobject {
                 this.scene.translate(0, i * 4, 0);
                 this.scene.rotate(this.degToRad(this.petal_rotations[i]),0,1,0);
                 this.scene.rotate((Math.PI/2),0,0,1);
-                this.petal.display();
+                let new_petal = new MyPetal(this.scene,this.petal_curvatures[i],this.outside_radius-this.receptacle_radius);
+                new_petal.display();
                 this.scene.popMatrix();
                 // stem
                 this.scene.pushMatrix();
