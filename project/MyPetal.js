@@ -18,7 +18,9 @@ export class MyPetal extends CGFobject {
 			0, 0, 0,	//0
 			1, this.petal_length, 0,	//1
 			-1, this.petal_length, 0,	//2
-			0, this.petal_length + (Math.sin(new_angle) * (this.petal_length)), -(Math.cos(new_angle) * (this.petal_length))	//3
+			0, this.petal_length + (Math.sin(new_angle) * (this.petal_length)), -(Math.cos(new_angle) * (this.petal_length)),	//3
+			1,this.petal_length + ((Math.sin(new_angle) * (this.petal_length)))/2, (-(Math.cos(new_angle) * (this.petal_length))) / 2,
+			-1,this.petal_length + ((Math.sin(new_angle) * (this.petal_length)))/2, (-(Math.cos(new_angle) * (this.petal_length))) / 2
 		];
 
 		//Counter-clockwise reference of vertices
@@ -26,14 +28,16 @@ export class MyPetal extends CGFobject {
 			0, 1, 2,
 			1, 3, 2,
             2, 1, 0,
-            2, 3, 1
+            2, 3, 1,
+			1, 4, 3,
+			2, 3, 5
 		];
 
         this.normals = [
             0,0,1,
             0,0,1,
             0,0,1,
-            0,0,1
+            0,0.45,0.45
         ]
 
 		//The defined indices (and corresponding vertices)
