@@ -114,8 +114,8 @@ export class MyScene extends CGFscene {
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
-    //this.flower.display()
-    this.leaf.display();
+    this.flower.display()
+    //this.leaf.display();
     // ---- END Primitive drawing section
   }
 }
