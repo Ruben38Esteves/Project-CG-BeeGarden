@@ -28,7 +28,7 @@ export class MyFlower extends CGFobject {
         this.stem_lengths = []; // holds the length of each stem to help with other objects transformations
         this.stems = []; // holds all stems
         for(let a = 0; a < this.stem_length; a++){
-            this.stem_rotations.push(Math.floor(Math.random() * 15));
+            this.stem_rotations.push(Math.floor(Math.random() * 10));
             let new_len = Math.floor(Math.random() * 6) + 1;
             this.stem_lengths.push(new_len);
             this.stems.push(new MyStem(this.scene,30,30,this.stem_radius,new_len))

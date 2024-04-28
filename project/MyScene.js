@@ -1,5 +1,6 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyFlower } from "./MyFower.js";
+import { MyLeaf } from "./MyLeaf.js";
 import { MyPetal } from "./MyPetal.js";
 import { MyPlane } from "./MyPlane.js";
 import { MyReceptacle } from "./MyReceptacle.js";
@@ -39,7 +40,8 @@ export class MyScene extends CGFscene {
     this.petal = new MyPetal(this, 80, 4);
     this.receptacle = new MyReceptacle(this, 3, 30,30);
     this.stem = new MyStem(this, 30, 30, 1);
-    this.flower = new MyFlower(this,5,6,1,0.5,3);
+    this.flower = new MyFlower(this,5,5,1,0.5,3);
+    this.leaf = new MyLeaf(this, 5, 2);
 
 
   
@@ -112,7 +114,8 @@ export class MyScene extends CGFscene {
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
-    this.flower.display()
+    //this.flower.display()
+    this.leaf.display();
     // ---- END Primitive drawing section
   }
 }
