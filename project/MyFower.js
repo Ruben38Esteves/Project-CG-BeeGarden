@@ -105,16 +105,19 @@ export class MyFlower extends CGFobject {
                 this.petals[i].display();
                 this.scene.popMatrix();
                 // stem
+                //  - pre calculations
+                let angle= this.degToRad(this.stem_rotations[i]);
+                hight -= (Math.sin(angle) * (this.stem_radius))
                 this.scene.pushMatrix();
                 this.scene.translate(this.new_x, hight ,this.new_z);
-                let angle= this.degToRad(this.stem_rotations[i]);
                 this.scene.rotate(angle,0,0,1);
                 this.scene.rotate(angle,1,0,0);
-                hight +=  this.stem_lengths[i] * Math.cos(angle) * Math.cos(angle);
-                this.new_x -= this.stem_lengths[i] * Math.sin(angle) * Math.cos(angle);
-                this.new_z += this.stem_lengths[i] *  Math.sin(angle);
                 this.stems[i].display();
                 this.scene.popMatrix();
+                //  - after display calculations
+                hight +=  (this.stem_lengths[i] * Math.cos(angle) * Math.cos(angle));
+                this.new_x -= this.stem_lengths[i] * Math.sin(angle) * Math.cos(angle);
+                this.new_z += this.stem_lengths[i] *  Math.sin(angle);
             }
         }else{
             this.scene.pushMatrix();
