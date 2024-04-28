@@ -19,7 +19,6 @@ export class MyFlower extends CGFobject {
         this.stem_length = stem_length;
         this.initObjects();
         this.initMaterials();
-        this.initBuffers();
 	}
 
     initObjects(){
@@ -87,45 +86,9 @@ export class MyFlower extends CGFobject {
         this.stemMaterial.setShininess(10.0);
     }
 
-
-    intiTransforms(){
-        //cenas
-    }
-	
-	initBuffers() {
-        this.initObjects()
-		this.vertices = [
-			-1, 0, 0,	//0
-			0, -1, 0,	//1
-			0, 1, 0,	//2
-			1, 0, 0		//3
-		];
-
-		//Counter-clockwise reference of vertices
-		this.indices = [
-			0, 1, 2,
-			1, 3, 2
-		];
-
-		//The defined indices (and corresponding vertices)
-		//will be read in groups of three to draw triangles
-		this.primitiveType = this.scene.gl.TRIANGLES;
-
-		this.initGLBuffers();
-	}
-
     //helper functions for transforms
     degToRad(degrees){
         return (degrees * Math.PI / 180)
-    }
-    rotate(deg,x,y,z){
-        this.scene.rotate(this.degToRad(deg),x,y,z);
-    }
-    translate(x,y,z){
-        this.scene.translate(x,y,z);
-    }
-    scale(x,y,z){
-        this.scene.scale(x,y,z)
     }
 
     display(){
