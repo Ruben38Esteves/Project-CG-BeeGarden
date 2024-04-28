@@ -30,11 +30,17 @@ export class MyFlower extends CGFobject {
         this.stem_lengths = []; // holds the length of each stem to help with other objects transformations
         this.stems = []; // holds all stems
         this.leafs = [];
+        this.leaf_side = [];
         for(let a = 0; a < this.stem_length; a++){
             this.stem_rotations.push(Math.floor(Math.random() * 10));
             let new_len = Math.floor(Math.random() * 4) + 3;
             this.stem_lengths.push(new_len);
             this.stems.push(new MyStem(this.scene,30,30,this.stem_radius,new_len));
+            if(Math.random() > 0.5){
+                this.leaf_side.push(-1);
+            }else{
+                this.leaf_side.push(1);
+            }
             this.leafs.push(new MyLeaf(this.scene,Math.floor(Math.random() * 4) + 2,Math.floor(Math.random() * 2) +1));
         }
         // PETALS
@@ -47,31 +53,37 @@ export class MyFlower extends CGFobject {
         }
         this.new_x = 0;
         this.new_z = 0;
+        //COLORS
+        this.petal_color = [(Math.random()*0.5)+0.5,0,(Math.random()*0.5)];
+        this.leaf_color = [(Math.random()*0.5),(Math.random()*0.5)+0.5,0];
+        this.receptacle_color = [(Math.random()*0.5)+0.5,(Math.random()*0.5)+0.5,0];
+        this.stem_color = [0,(Math.random()*0.5)+0.5,0];
+        console.log(this.stem_color);
     }
 
     initMaterials(){
         this.petalMaterial = new CGFappearance(this.scene);
-        this.petalMaterial.setAmbient(1, 0, 0, 1.0); 
-        this.petalMaterial.setDiffuse(1, 0, 0, 1.0); 
-        this.petalMaterial.setSpecular(1, 0, 0, 1.0); 
+        this.petalMaterial.setAmbient(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
+        this.petalMaterial.setDiffuse(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
+        this.petalMaterial.setSpecular(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
         this.petalMaterial.setShininess(10.0);
 
         this.leafMaterial = new CGFappearance(this.scene);
-        this.leafMaterial.setAmbient(0, 1, 0, 1.0); 
-        this.leafMaterial.setDiffuse(0, 1, 0, 1.0); 
-        this.leafMaterial.setSpecular(0, 1, 0, 1.0); 
+        this.leafMaterial.setAmbient(this.leaf_color[0],this.leaf_color[1],this.leaf_color[2], 1.0); 
+        this.leafMaterial.setDiffuse(this.leaf_color[0],this.leaf_color[1],this.leaf_color[2], 1.0); 
+        this.leafMaterial.setSpecular(this.leaf_color[0],this.leaf_color[1],this.leaf_color[2], 1.0); 
         this.leafMaterial.setShininess(10.0);
 
         this.receptacleMaterial = new CGFappearance(this.scene);
-        this.receptacleMaterial.setAmbient(1, 1, 0, 1.0); 
-        this.receptacleMaterial.setDiffuse(1, 1, 0, 1.0); 
-        this.receptacleMaterial.setSpecular(1, 1, 0, 1.0); 
+        this.receptacleMaterial.setAmbient(this.receptacle_color[0],this.receptacle_color[1],this.receptacle_color[2], 1.0); 
+        this.receptacleMaterial.setDiffuse(this.receptacle_color[0],this.receptacle_color[1],this.receptacle_color[2], 1.0); 
+        this.receptacleMaterial.setSpecular(this.receptacle_color[0],this.receptacle_color[1],this.receptacle_color[2], 1.0); 
         this.receptacleMaterial.setShininess(10.0);
 
         this.stemMaterial = new CGFappearance(this.scene);
-        this.stemMaterial.setAmbient(0, 0.5, 0, 1.0); 
-        this.stemMaterial.setDiffuse(0, 0.5, 0, 1.0); 
-        this.stemMaterial.setSpecular(0, 0.5, 0, 1.0); 
+        this.stemMaterial.setAmbient(this.stem_color[0],this.stem_color[1],this.stem_color[2], 1.0); 
+        this.stemMaterial.setDiffuse(this.stem_color[0],this.stem_color[1],this.stem_color[2], 1.0); 
+        this.stemMaterial.setSpecular(this.stem_color[0],this.stem_color[1],this.stem_color[2], 1.0); 
         this.stemMaterial.setShininess(10.0);
     }
 
@@ -132,7 +144,7 @@ export class MyFlower extends CGFobject {
                 this.scene.pushMatrix();
                 this.scene.translate(this.new_x, hight, this.new_z);
                 //this.scene.rotate(this.degToRad(this.petal_rotations[i]),0,1,0);
-                this.scene.rotate((Math.PI/2),0,0,1);
+                this.scene.rotate(this.leaf_side[i-1] * (Math.PI/2),0,0,1);
                 this.leafMaterial.apply();
                 this.leafs[i-1].display();
                 this.scene.popMatrix();
