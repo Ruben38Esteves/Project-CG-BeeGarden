@@ -28,7 +28,7 @@ export class MyFlower extends CGFobject {
         this.stem_lengths = []; // holds the length of each stem to help with other objects transformations
         this.stems = []; // holds all stems
         for(let a = 0; a < this.stem_length; a++){
-            this.stem_rotations.push(Math.floor(Math.random() * 30));
+            this.stem_rotations.push(Math.floor(Math.random() * 15));
             let new_len = Math.floor(Math.random() * 6) + 1;
             this.stem_lengths.push(new_len);
             this.stems.push(new MyStem(this.scene,30,30,this.stem_radius,new_len))
@@ -40,6 +40,8 @@ export class MyFlower extends CGFobject {
             this.petal_rotations.push(Math.floor(Math.random() * 60) - 30);
             this.petals.push(new MyPetal(this.scene,Math.floor(Math.random() * 60) + 60,this.outside_radius-this.receptacle_radius))
         }
+        this.new_x = 0;
+        this.new_z = 0;
     }
     
 
@@ -75,7 +77,7 @@ export class MyFlower extends CGFobject {
         return (degrees * Math.PI / 180)
     }
     rotate(deg,x,y,z){
-        this.scene.rotate(this.degToRad(deg),x,y,z);
+        this.scene.rotate(deg,x,y,z);
     }
     translate(x,y,z){
         this.scene.translate(x,y,z);
@@ -86,6 +88,8 @@ export class MyFlower extends CGFobject {
 
     display(){
         let hight = 0;
+        this.new_x = 0;
+        this.new_z = 0;
         // display stems
         if(this.stem_length > 1){
             this.scene.pushMatrix();
@@ -95,17 +99,20 @@ export class MyFlower extends CGFobject {
             for(let i = 1; i < this.stem_length;i++){
                 // petal
                 this.scene.pushMatrix();
-                this.scene.translate(0, i * 4, 0);
+                this.scene.translate(this.new_x, hight, this.new_z);
                 this.scene.rotate(this.degToRad(this.petal_rotations[i]),0,1,0);
                 this.scene.rotate((Math.PI/2),0,0,1);
                 this.petals[i].display();
                 this.scene.popMatrix();
                 // stem
                 this.scene.pushMatrix();
-                //this.scene.rotate(this.degToRad(this.stem_rotations[i]),1,0,0);
-                //this.scene.rotate(this.degToRad(this.stem_rotations[i]),0,0,1);
-                this.scene.translate(0, hight ,0);
-                hight += this.stem_lengths[i];
+                this.scene.translate(this.new_x, hight ,this.new_z);
+                let angle= this.degToRad(this.stem_rotations[i]);
+                this.scene.rotate(angle,0,0,1);
+                this.scene.rotate(angle,1,0,0);
+                hight +=  this.stem_lengths[i] * Math.cos(angle) * Math.cos(angle);
+                this.new_x -= this.stem_lengths[i] * Math.sin(angle) * Math.cos(angle);
+                this.new_z += this.stem_lengths[i] *  Math.sin(angle);
                 this.stems[i].display();
                 this.scene.popMatrix();
             }
@@ -119,13 +126,13 @@ export class MyFlower extends CGFobject {
         
         // display receptacle
         this.scene.pushMatrix();
-        this.scene.translate(0, hight, 0)
+        this.scene.translate(this.new_x, hight, this.new_z);
         this.receptacle.display();
         this.scene.popMatrix();
         // display petals
         for(let j = 0; j < this.petal_amount; j++){
             this.scene.pushMatrix();
-            this.scene.translate(0, hight, 0);
+            this.scene.translate(this.new_x, hight, this.new_z);
             this.scene.rotate(((2*Math.PI)/this.petal_amount)*j,0,0,1);
             this.scene.translate(0,this.receptacle_radius,0);
             this.scene.rotate(this.degToRad(this.petal_rotations[j + (this.stem_length -1)]),1,0,0);

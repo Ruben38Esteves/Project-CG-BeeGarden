@@ -39,7 +39,7 @@ export class MyScene extends CGFscene {
     this.petal = new MyPetal(this, 80, 4);
     this.receptacle = new MyReceptacle(this, 3, 30,30);
     this.stem = new MyStem(this, 30, 30, 1);
-    this.flower = new MyFlower(this,5,6,1,0.5,2);
+    this.flower = new MyFlower(this,5,6,1,0.5,3);
 
 
   
