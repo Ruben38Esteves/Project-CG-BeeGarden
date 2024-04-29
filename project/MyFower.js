@@ -43,7 +43,7 @@ export class MyFlower extends CGFobject {
             this.leafs.push(new MyLeaf(this.scene,Math.floor(Math.random() * 4) + 2,Math.floor(Math.random() * 2) +1));
         }
         // PETALS
-        this.initial_petal_rotation = this.degToRad(Math.floor(Math.random() * 10));
+        this.initial_petal_rotation = this.degToRad(Math.floor(Math.random() * 30));
         this.petal_rotations = []; //hold the rotation of each petal
         this.petals = []; // holds all petals
         for(let c = 0; c < this.petal_amount; c++){
@@ -58,6 +58,7 @@ export class MyFlower extends CGFobject {
         this.receptacle_color = [(Math.random()*0.5)+0.5,(Math.random()*0.5)+0.5,0];
         this.stem_color = [0,(Math.random()*0.5)+0.5,0];
         console.log(this.stem_color);
+        this.angle = 0;
     }
 
     initMaterials(){
@@ -113,19 +114,20 @@ export class MyFlower extends CGFobject {
                 this.scene.popMatrix();
                 // stem
                 //  - pre calculations
-                let angle= this.degToRad(this.stem_rotations[i]);
-                hight -= (Math.sin(angle) * (this.stem_radius))
+                hight -= (Math.sin(this.angle) * (this.stem_radius))
+                this.angle= this.degToRad(this.stem_rotations[i]);
+                hight -= (Math.sin(this.angle) * (this.stem_radius))
                 this.scene.pushMatrix();
                 this.scene.translate(this.new_x, hight ,this.new_z);
-                this.scene.rotate(angle,0,0,1);
-                this.scene.rotate(angle,1,0,0);
+                this.scene.rotate(this.angle,0,0,1);
+                this.scene.rotate(this.angle,1,0,0);
                 this.stemMaterial.apply();
                 this.stems[i].display();
                 this.scene.popMatrix();
                 //  - after display calculations
-                hight +=  (this.stem_lengths[i] * Math.cos(angle) * Math.cos(angle));
-                this.new_x -= this.stem_lengths[i] * Math.sin(angle) * Math.cos(angle);
-                this.new_z += this.stem_lengths[i] *  Math.sin(angle);
+                hight +=  (this.stem_lengths[i] * Math.cos(this.angle) * Math.cos(this.angle));
+                this.new_x -= this.stem_lengths[i] * Math.sin(this.angle) * Math.cos(this.angle);
+                this.new_z += this.stem_lengths[i] *  Math.sin(this.angle);
             }
         }else{
             this.scene.pushMatrix();

@@ -112,7 +112,7 @@ export class MyScene extends CGFscene {
 
 
     //display sphere
-    //this.panorama.display();
+    this.panorama.display();
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();

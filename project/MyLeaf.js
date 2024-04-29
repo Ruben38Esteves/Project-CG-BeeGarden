@@ -62,11 +62,11 @@ export class MyLeaf extends CGFobject {
         this.vertices.push(-0.1,this.leaf_length,0);
         //normals
         this.normals.push(0,0,1);
-        this.normals.push(0,0,1);
+        this.normals.push(0,0,0);
         this.normals.push(0,0,1);
 
         this.normals.push(0,0,1);
-        this.normals.push(0,0,1);
+        this.normals.push(0,0,0);
         this.normals.push(0,0,1);
         //indicies
         this.indices.push((this.vertices.length / 3)-6,(this.vertices.length/3)-5,(this.vertices.length/3)-4);
