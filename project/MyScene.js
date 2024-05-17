@@ -5,6 +5,7 @@ import { MyLeaf } from "./MyLeaf.js";
 import { MyPetal } from "./MyPetal.js";
 import { MyPlane } from "./MyPlane.js";
 import { MyReceptacle } from "./MyReceptacle.js";
+import { MyRock } from "./MyRock.js";
 import { MySphere } from "./MySphere.js";
 import { MyStem } from "./MyStem.js";
 import { MyPanorama } from "./myPanorama.js";
@@ -44,6 +45,7 @@ export class MyScene extends CGFscene {
     this.flower = new MyFlower(this,5,5,1,0.2,3);
     this.leaf = new MyLeaf(this, 5, 2);
     this.garden = new MyGarden(this, 5, 5, 10);
+    //this.rock = new MyRock(this, 10);
 
 
   
@@ -112,13 +114,18 @@ export class MyScene extends CGFscene {
 
 
     //display sphere
+    this.pushMatrix();
     this.panorama.display();
+    this.popMatrix();
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
     //this.flower.display()
     //this.leaf.display();
+    this.pushMatrix();
     this.garden.display();
+    this.popMatrix();
+    //this.rock.display();
     // ---- END Primitive drawing section
   }
 }

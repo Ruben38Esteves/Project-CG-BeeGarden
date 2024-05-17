@@ -1,4 +1,4 @@
-import {CGFobject, CGFappearance} from '../lib/CGF.js';
+import {CGFobject, CGFappearance, CGFtexture} from '../lib/CGF.js';
 import { MyLeaf } from './MyLeaf.js';
 import { MyPetal } from './MyPetal.js';
 import { MyReceptacle } from './MyReceptacle.js';
@@ -62,11 +62,25 @@ export class MyFlower extends CGFobject {
     }
 
     initMaterials(){
+        switch(Math.floor(Math.random() * 3)){
+            case 0:
+                this.petal_texture = new CGFtexture(this.scene, 'images/petaltext_1.jpg');
+                break;
+            case 1:
+                this.petal_texture = new CGFtexture(this.scene, 'images/petaltext_2.jpg');
+                break;
+            case 2:
+                this.petal_texture = new CGFtexture(this.scene, 'images/petaltext_3.jpg');
+                break;
+        }
+
         this.petalMaterial = new CGFappearance(this.scene);
-        this.petalMaterial.setAmbient(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
-        this.petalMaterial.setDiffuse(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
-        this.petalMaterial.setSpecular(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
+        this.petalMaterial.setAmbient(this.petal_color[0], this.petal_color[1], this.petal_color[2], 0.5); 
+        this.petalMaterial.setDiffuse(this.petal_color[0], this.petal_color[1], this.petal_color[2], 0.5); 
+        this.petalMaterial.setSpecular(this.petal_color[0], this.petal_color[1], this.petal_color[2], 0.5); 
         this.petalMaterial.setShininess(10.0);
+        this.petalMaterial.setTexture(this.petal_texture);
+        this.petalMaterial.setTextureWrap('REPEAT','REPEAT');
 
         this.leafMaterial = new CGFappearance(this.scene);
         this.leafMaterial.setAmbient(this.leaf_color[0],this.leaf_color[1],this.leaf_color[2], 1.0); 
@@ -107,11 +121,11 @@ export class MyFlower extends CGFobject {
                 // leaf
                 this.scene.pushMatrix();
                 this.scene.translate(this.new_x, hight, this.new_z);
-                //this.scene.rotate(this.degToRad(this.petal_rotations[i]),0,1,0);
                 this.scene.rotate(this.leaf_side[i-1] * (Math.PI/2),0,0,1);
                 this.leafMaterial.apply();
                 this.leafs[i-1].display();
                 this.scene.popMatrix();
+
                 // stem
                 //  - pre calculations
                 hight -= (Math.sin(this.angle) * (this.stem_radius))
@@ -136,7 +150,6 @@ export class MyFlower extends CGFobject {
             this.stems[0].display();
             this.scene.popMatrix();
         }
-
         
         // display receptacle
         this.scene.pushMatrix();
@@ -144,6 +157,7 @@ export class MyFlower extends CGFobject {
         this.receptacleMaterial.apply();
         this.receptacle.display();
         this.scene.popMatrix();
+
         // display petals
         for(let j = 0; j < this.petal_amount; j++){
             this.scene.pushMatrix();
