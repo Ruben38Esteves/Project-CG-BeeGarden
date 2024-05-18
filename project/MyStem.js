@@ -18,11 +18,12 @@ export class MyStem extends CGFobject {
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.texCoords = [];
 
 		let angle = (2 * Math.PI) / this.slices;
 		let cutSize = this.stem_length / this.stacks;
 
-
+		
 		for (let j = 0; j <= this.stacks; j++) {
 			for (let i = 0; i < this.slices; i++) {
 
@@ -48,11 +49,11 @@ export class MyStem extends CGFobject {
 					this.indices.push(this.slices * (j - 1) + i, this.slices * j + i, i - 1 + this.slices * j);
 
 				}
-
+				let u = i/this.slices;
+                let v = j/this.stacks;
+                this.texCoords.push(u,v);
 
 			}
-
-
 		}
 		//The defined indices (and corresponding vertices)
 		//will be read in groups of three to draw triangles

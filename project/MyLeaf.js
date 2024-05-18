@@ -16,12 +16,12 @@ export class MyLeaf extends CGFobject {
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
-
+		this.texCoords = [];
 		let angle = (2 * Math.PI) / 10;
-		let cutSize = this.leaf_length / 12;
+		let cutSize = this.leaf_length / 10;
 
 
-		for (let j = 0; j <= 12; j++) {
+		for (let j = 0; j <= 10; j++) {
 			for (let i = 0; i < 10; i++) {
 
 				let x = Math.cos(i * angle) * 0.1;
@@ -75,6 +75,23 @@ export class MyLeaf extends CGFobject {
         this.indices.push((this.vertices.length / 3)-4,(this.vertices.length/3)-5,(this.vertices.length/3)-6);
         this.indices.push((this.vertices.length / 3)-3,(this.vertices.length/3)-2,(this.vertices.length/3)-1);
 		//The defined indices (and corresponding vertices)
+
+		for(let n = 0; n < 36; n++){
+			this.texCoords.push(0,1);
+			this.texCoords.push(1,1);
+			this.texCoords.push(0.5,0);
+		}
+		this.texCoords.push(0.5,0);
+		this.texCoords.push(0.5,0);
+
+		
+		this.texCoords.push(1,0.5);
+		this.texCoords.push(0.5,0);
+		this.texCoords.push(0,0.5);
+		this.texCoords.push(1,0.5);
+		this.texCoords.push(0.5,1);
+		this.texCoords.push(0,0.5);
+
 		//will be read in groups of three to draw triangles
 		this.primitiveType = this.scene.gl.TRIANGLES;
 

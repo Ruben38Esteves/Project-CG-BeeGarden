@@ -42,7 +42,7 @@ export class MyScene extends CGFscene {
     this.petal = new MyPetal(this, 80, 4);
     this.receptacle = new MyReceptacle(this, 3, 30,30);
     this.stem = new MyStem(this, 30, 30, 1);
-    this.flower = new MyFlower(this,5,5,1,0.2,3);
+    this.flower = new MyFlower(this,5,8,1,0.2,3);
     this.leaf = new MyLeaf(this, 5, 2);
     this.garden = new MyGarden(this, 5, 5, 10);
     //this.rock = new MyRock(this, 10);
@@ -113,18 +113,14 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
 
-    //display sphere
-    this.pushMatrix();
-    this.panorama.display();
-    this.popMatrix();
+    
+    //this.panorama.display();
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
-    //this.flower.display()
+    this.flower.display()
     //this.leaf.display();
-    this.pushMatrix();
-    this.garden.display();
-    this.popMatrix();
+    //this.garden.display();
     //this.rock.display();
     // ---- END Primitive drawing section
   }

@@ -17,7 +17,7 @@ export class MyGarden extends CGFobject {
 	initObjects(){
         this.flowers = [];
         for(let i = 0; i < this.rows * this.cols; i ++){
-            this.flowers.push(new MyFlower(this.scene, Math.floor(Math.random() * 4)+3,Math.floor(Math.random() * 5)+3,(Math.random() * 0.5)+0.5, (Math.random() / 2) + 0.2, Math.floor(Math.random() * 4)+3));
+            this.flowers.push(new MyFlower(this.scene, Math.floor(Math.random() * 4)+3,Math.floor(Math.random() * 5)+7,(Math.random() * 0.5)+0.7, (Math.random() * 0.5) + 0.2, Math.floor(Math.random() * 4)+3));
         }
     }
 

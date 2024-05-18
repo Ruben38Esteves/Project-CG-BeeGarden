@@ -23,7 +23,7 @@ export class MyFlower extends CGFobject {
 
     initObjects(){
         // RECEPTACLE
-        this.receptacle = new MyReceptacle(this.scene,this.receptacle_radius,30,30);
+        this.receptacle = new MyReceptacle(this.scene,this.receptacle_radius,10,10);
         // STEAMS
         this.stem_rotations = [];
         this.stem_lengths = []; // holds the length of each stem to help with other objects transformations
@@ -34,7 +34,7 @@ export class MyFlower extends CGFobject {
             this.stem_rotations.push(Math.floor(Math.random() * 10));
             let new_len = Math.floor(Math.random() * 4) + 3;
             this.stem_lengths.push(new_len);
-            this.stems.push(new MyStem(this.scene,30,30,this.stem_radius,new_len));
+            this.stems.push(new MyStem(this.scene,10,30,this.stem_radius,new_len));
             if(Math.random() > 0.5){
                 this.leaf_side.push(-1);
             }else{
@@ -53,7 +53,7 @@ export class MyFlower extends CGFobject {
         this.new_x = 0;
         this.new_z = 0;
         //COLORS
-        this.petal_color = [(Math.random()*0.5)+0.5,0,(Math.random()*0.5)];
+        this.petal_color = [(Math.random()*0.5)+0.5,0,(Math.random())];
         this.leaf_color = [(Math.random()*0.5),(Math.random()*0.5)+0.5,0];
         this.receptacle_color = [(Math.random()*0.5)+0.5,(Math.random()*0.5)+0.5,0];
         this.stem_color = [0,(Math.random()*0.5)+0.5,0];
@@ -73,11 +73,27 @@ export class MyFlower extends CGFobject {
                 this.petal_texture = new CGFtexture(this.scene, 'images/petaltext_3.jpg');
                 break;
         }
+        switch(Math.floor(Math.random() * 2)){
+            case 0:
+                this.receptacle_texture = new CGFtexture(this.scene, 'images/receptacletext_1.jpg');
+                break;
+            case 1:
+                this.receptacle_texture = new CGFtexture(this.scene, 'images/receptacletext_2.jpg');
+                break;
+        }
+        switch(Math.floor(Math.random() * 2)){
+            case 0:
+                this.stem_texture = new CGFtexture(this.scene, 'images/stemtext_1.jpg');
+                break;
+            case 1:
+                this.stem_texture = new CGFtexture(this.scene, 'images/stemtext_2.jpg');
+                break;
+        }
 
         this.petalMaterial = new CGFappearance(this.scene);
-        this.petalMaterial.setAmbient(this.petal_color[0], this.petal_color[1], this.petal_color[2], 0.5); 
-        this.petalMaterial.setDiffuse(this.petal_color[0], this.petal_color[1], this.petal_color[2], 0.5); 
-        this.petalMaterial.setSpecular(this.petal_color[0], this.petal_color[1], this.petal_color[2], 0.5); 
+        this.petalMaterial.setAmbient(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
+        this.petalMaterial.setDiffuse(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
+        this.petalMaterial.setSpecular(this.petal_color[0], this.petal_color[1], this.petal_color[2], 1.0); 
         this.petalMaterial.setShininess(10.0);
         this.petalMaterial.setTexture(this.petal_texture);
         this.petalMaterial.setTextureWrap('REPEAT','REPEAT');
@@ -87,18 +103,24 @@ export class MyFlower extends CGFobject {
         this.leafMaterial.setDiffuse(this.leaf_color[0],this.leaf_color[1],this.leaf_color[2], 1.0); 
         this.leafMaterial.setSpecular(this.leaf_color[0],this.leaf_color[1],this.leaf_color[2], 1.0); 
         this.leafMaterial.setShininess(10.0);
+        this.leafMaterial.loadTexture('images/leaftext_1.jpg');
+        this.leafMaterial.setTextureWrap('REPEAT','REPEAT');
 
         this.receptacleMaterial = new CGFappearance(this.scene);
         this.receptacleMaterial.setAmbient(this.receptacle_color[0],this.receptacle_color[1],this.receptacle_color[2], 1.0); 
         this.receptacleMaterial.setDiffuse(this.receptacle_color[0],this.receptacle_color[1],this.receptacle_color[2], 1.0); 
         this.receptacleMaterial.setSpecular(this.receptacle_color[0],this.receptacle_color[1],this.receptacle_color[2], 1.0); 
         this.receptacleMaterial.setShininess(10.0);
+        this.receptacleMaterial.setTexture(this.receptacle_texture);
+        this.receptacleMaterial.setTextureWrap('REPEAT','REPEAT');
 
         this.stemMaterial = new CGFappearance(this.scene);
         this.stemMaterial.setAmbient(this.stem_color[0],this.stem_color[1],this.stem_color[2], 1.0); 
         this.stemMaterial.setDiffuse(this.stem_color[0],this.stem_color[1],this.stem_color[2], 1.0); 
         this.stemMaterial.setSpecular(this.stem_color[0],this.stem_color[1],this.stem_color[2], 1.0); 
         this.stemMaterial.setShininess(10.0);
+        this.stemMaterial.setTexture(this.stem_texture);
+        this.stemMaterial.setTextureWrap('REPEAT','REPEAT');
     }
 
     //helper functions for transforms
