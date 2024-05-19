@@ -9,6 +9,7 @@ import { MyRock } from "./MyRock.js";
 import { MySphere } from "./MySphere.js";
 import { MyStem } from "./MyStem.js";
 import { MyPanorama } from "./myPanorama.js";
+import { MyBee } from "./MyBee.js";
 
 /**
  * MyScene
@@ -47,6 +48,8 @@ export class MyScene extends CGFscene {
     this.garden = new MyGarden(this, 5, 5, 10);
     //this.rock = new MyRock(this, 10);
 
+    //bee
+    this.bee = new MyBee(this);
 
   
 
@@ -114,11 +117,12 @@ export class MyScene extends CGFscene {
 
 
     
-    //this.panorama.display();
+    this.panorama.display();
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
-    this.flower.display()
+    //this.flower.display()
+    this.bee.display();
     //this.leaf.display();
     //this.garden.display();
     //this.rock.display();

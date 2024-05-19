@@ -2,6 +2,7 @@ import {CGFobject, CGFappearance} from '../lib/CGF.js';
 import { MyAntenna } from './MyAntenna.js';
 import { MySphereBee } from './MySphereBee.js';
 import { MySphere } from './MySphere.js';
+import { MyEllipse } from './MyEllipse.js';
 /**
  * MyDiamond
  * @constructor
@@ -11,13 +12,15 @@ export class MyBee extends CGFobject {
 	constructor(scene) {
 		super(scene);
 		this.initObjects();
-        this.initMaterials(); 
+        this.initMaterials();
+        this.time = 0;
 	}
 
     initObjects(){
         this.componentBack = new MySphereBee(this.scene, 16, 8, 0.5, 4, 4);
         this.component = new MySphere(this.scene, 16, 8, 0.5);
         this.antennas = new MyAntenna(this.scene);
+        this.wing = new MyEllipse(this.scene, 16, 1, 0.4, false);
     }
 	
 	initMaterials(){
@@ -45,7 +48,13 @@ export class MyBee extends CGFobject {
         this.eyeMaterial.setSpecular(0.5, 0.5, 0.5, 1.0);
         this.eyeMaterial.setShininess(10.0);
         this.eyeMaterial.loadTexture('images/beeEyes.jpg');
+
+        this.wingMaterial = new CGFappearance(this.scene);
+        this.wingMaterial.setAmbient(0.8, 0.8, 0.8, 0.7);
+        this.wingMaterial.setDiffuse(0.8, 0.8, 0.8, 0.7);
+        this.wingMaterial.setSpecular(0.8, 0.8, 0.8, 0.7);
     }
+
 
     display(){
         //center Body
@@ -109,6 +118,42 @@ export class MyBee extends CGFobject {
         this.scene.translate(0, 0, -1);
         this.antennas.display();
         this.scene.popMatrix();
+
+        // Enable blending
+        this.scene.gl.enable(this.scene.gl.BLEND);
+        this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);
+
+        //wings
+        this.wingMaterial.apply();
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/3, 1, 0, 0);
+        this.scene.scale(0.5, 0.5, 0.5);
+        this.scene.translate(1, 0.2, 0);
+        this.wing.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.scale(0.4, 0.4, 0.4);
+        this.scene.translate(1, -0.25, -0.5);
+        this.scene.rotate(Math.PI/3, 1, 0, 0);
+        this.wing.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/3, 1, 0, 0);
+        this.scene.scale(0.5, 0.5, 0.5);
+        this.scene.translate(-1, 0.2, 0);
+        this.wing.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.scale(0.4, 0.4, 0.4);
+        this.scene.translate(-1, -0.25, -0.5);
+        this.scene.rotate(Math.PI/3, 1, 0, 0);
+        this.wing.display();
+        this.scene.popMatrix();
+
+
 
     
 
