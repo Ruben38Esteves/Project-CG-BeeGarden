@@ -1,67 +1,70 @@
-import {CGFobject} from '../lib/CGF.js';
-/**
- * MyRock
- * @constructor
- * @param scene - Reference to MyScene object
- */
+import { CGFobject } from '../../lib/CGF.js';
+
 export class MyRock extends CGFobject {
-	constructor(scene, radius)	{
+    constructor(scene, slices, stacks, radius) {
         super(scene);
-        this.original_radius = radius;
-		this.initBuffers();
-        this.offsets = [];
-        for(x = 0; x < 100; x++){
-            this.offsets.push(Math.random());
-        }
-	}
+        this.scene = scene;
+        this.slices = slices;
+        this.stacks = stacks;
+        this.radius = radius;
+        this.initBuffers();
+    }
 
-	initBuffers() {
-		this.vertices = [];
-		this.indices = [];
-		this.normals = [];
+    initBuffers() {
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
 
-		let angle = (2 * Math.PI) / 10;
-        let angle_2 = Math.PI / 10;
-        let cutSize = (2* this.original_radius) / 10;
-        let radius = this.original_radius;
-		
-
-        for (let j = 0; j <= 10; j++){
-            radius = this.original_radius * Math.sin(j * angle_2);
-            for(let i = 0; i < 10; i++){
-				
-				let x=Math.cos(i*angle) * radius;
-                let y=Math.sin(i*angle) * radius;
-                let z=this.original_radius * Math.cos(j * angle_2);
-				
-				//vertices
-                this.vertices.push(x,y,z);
-				
-
-				// assure 1 unit length
-                let n = Math.sqrt(x*x + y*y + z*z);
-                let normalx = x / n;
-                let normaly = y / n;
-                let normalz = z / n;
-    
-                this.normals.push(
-					normalx, normaly, normalz,
-					)
-
-                if (j != 0){
-                    this.indices.push(10*(j-1) + i, i-1 + 10*j, 10*j + i);
-                    this.indices.push(10*(j-1) + i, 10*j + i, 10*(j-1)+i+1);
-                    
+        for (let stack = 0; stack <= this.stacks; stack++) {
+            let theta = stack * Math.PI / this.stacks;
+            let sinTheta = Math.sin(theta);
+            let cosTheta = Math.cos(theta);
+        
+            let firstOffset = (Math.random() - 0.5) * 0.7 * sinTheta;
+        
+            for (let slice = 0; slice <= this.slices; slice++) {
+                let phi = 2 * slice * Math.PI / this.slices;
+                let sinPhi = Math.sin(phi);
+                let cosPhi = Math.cos(phi);
+        
+                let offset;
+                if (slice === 0 || slice === this.slices) {
+                    offset = firstOffset; // connect sliices so its not possible to see inside the rock
+                } else {
+                    offset = (Math.random() - 0.5) * 0.7 * sinTheta;
                 }
-                
-                   
+            
+        
+                let x = (this.radius + offset) * cosPhi * sinTheta;
+                let y = (this.radius + offset) * cosTheta;
+                let z = (this.radius + offset) * sinPhi * sinTheta;
+                let u = 1 - (slice / this.slices);
+                let v = stack / this.stacks;
+        
+                this.vertices.push(x, y, z);
+                this.texCoords.push(u, v);
+        
+                let nx = cosPhi * sinTheta;
+                let ny = cosTheta;
+                let nz = sinPhi * sinTheta;
+        
+                this.normals.push(nx, ny, nz);
             }
-        		
-		//The defined indices (and corresponding vertices)
-		//will be read in groups of three to draw triangles
-		this.primitiveType = this.scene.gl.TRIANGLES;
+        }
 
-		this.initGLBuffers();
-	}
-}
+        for (let stack = 0; stack < this.stacks; stack++) {
+            for (let slice = 0; slice < this.slices; slice++) {
+                let first = (stack * (this.slices + 1)) + slice;
+                let second = first + this.slices + 1;
+   
+                this.indices.push(first + 1, second, first);
+                this.indices.push(first + 1, second + 1, second);
+                
+            }
+        }
+
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+    }
 }
