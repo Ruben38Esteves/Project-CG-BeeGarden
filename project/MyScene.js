@@ -197,8 +197,8 @@ export class MyScene extends CGFscene {
     this.popMatrix();
     //this.leaf.display();
     //this.garden.display();
-    this.rockAppearance.apply();
-    this.rockSet.display();
+    //this.rockAppearance.apply();
+    // this.rockSet.display();
     // ---- END Primitive drawing section
   }
   update(delta_t){
