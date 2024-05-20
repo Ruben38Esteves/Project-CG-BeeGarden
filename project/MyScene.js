@@ -10,6 +10,7 @@ import { MySphere } from "./MySphere.js";
 import { MyStem } from "./MyStem.js";
 import { MyPanorama } from "./myPanorama.js";
 import { MyBee } from "./MyBee.js";
+import { MyRockSet } from "./MyRockSet.js";
 
 /**
  * MyScene
@@ -39,7 +40,7 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    //this.plane = new MyPlane(this,30);
+    this.plane = new MyPlane(this,30);
     this.sphere = new MySphere(this, 30, 30, 100, true);
     let panoTexture = new CGFtexture(this, "images/panorama.jpg")
     this.panorama = new MyPanorama(this, panoTexture);
@@ -50,7 +51,10 @@ export class MyScene extends CGFscene {
     this.flower = new MyFlower(this, 5, 8, 1, 0.2, 3);
     this.leaf = new MyLeaf(this, 5, 2);
     this.garden = new MyGarden(this, 5, 5, 10);
-    //this.rock = new MyRock(this, 10);
+
+
+    this.rockSet = new MyRockSet(this);
+    this.rock = new MyRock(this, 15, 15, 2);
 
     //bee
     this.bee = new MyBee(this,0,0,0,0);
@@ -62,6 +66,15 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
     this.speedFactor = 0.1;
 
+    this.initTextures();
+
+
+    this.setUpdatePeriod(50);
+    this.appStartTime = Date.now();
+
+  }
+
+  initTextures() {
     this.enableTextures(true);
 
     this.texture = new CGFtexture(this, "images/terrain.jpg");
@@ -74,7 +87,14 @@ export class MyScene extends CGFscene {
     this.earthAppearance.setTexture(this.earthTexture);
     this.earthAppearance.setTextureWrap('REPEAT', 'REPEAT');
 
+    //gray material for a rock
+    this.rockAppearance = new CGFappearance(this);
+    this.rockAppearance.setAmbient(0.1, 0.1, 0.1, 1);
+    this.rockAppearance.setDiffuse(0.9, 0.9, 0.9, 1);
+    this.rockAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+    this.rockAppearance.setShininess(10.0);
   }
+
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -177,7 +197,8 @@ export class MyScene extends CGFscene {
     this.popMatrix();
     //this.leaf.display();
     //this.garden.display();
-    //this.rock.display();
+    this.rockAppearance.apply();
+    this.rockSet.display();
     // ---- END Primitive drawing section
   }
   update(delta_t){
