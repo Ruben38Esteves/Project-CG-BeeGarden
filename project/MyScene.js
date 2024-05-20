@@ -11,6 +11,8 @@ import { MyStem } from "./MyStem.js";
 import { MyPanorama } from "./myPanorama.js";
 import { MyBee } from "./MyBee.js";
 import { MyRockSet } from "./MyRockSet.js";
+import { MyHive } from "./MyHive.js";
+import { MyPollen } from "./MyPollen.js";
 
 /**
  * MyScene
@@ -60,6 +62,15 @@ export class MyScene extends CGFscene {
     this.bee = new MyBee(this,0,0,0,0);
 
 
+    //hive
+    this.hive = new MyHive(this);
+    this.pollen = new MyPollen(this, 10, 10, 1, 2, 1);
+
+    //hive
+    this.hive = new MyHive(this);
+    this.pollen = new MyPollen(this, 10, 10, 1, 2, 1);
+
+
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -93,6 +104,7 @@ export class MyScene extends CGFscene {
     this.rockAppearance.setDiffuse(0.9, 0.9, 0.9, 1);
     this.rockAppearance.setSpecular(0.1, 0.1, 0.1, 1);
     this.rockAppearance.setShininess(10.0);
+
   }
 
   initLights() {
@@ -178,12 +190,23 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.appearance.apply();
-    this.translate(0, -100, 0);
+    this.translate(0, -10, 0);
     this.scale(400, 400, 400);
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     //this.plane.display();
     this.popMatrix();
 
+
+    this.pushMatrix();
+    this.rockAppearance.apply();
+    this.rockSet.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(2, 4, 1);
+    this.scale(2,2,2);
+    this.hive.display();
+    this.popMatrix();
 
 
     this.panorama.display();
@@ -193,12 +216,16 @@ export class MyScene extends CGFscene {
     //this.flower.display()
     this.pushMatrix();
     this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
-    this.bee.display();
+    //this.bee.display();
     this.popMatrix();
     //this.leaf.display();
     //this.garden.display();
     //this.rockAppearance.apply();
     // this.rockSet.display();
+    //this.rockAppearance.apply();
+    //this.rockSet.display();
+    //this.hive.display();
+    //this.pollen.display();
     // ---- END Primitive drawing section
   }
   update(delta_t){

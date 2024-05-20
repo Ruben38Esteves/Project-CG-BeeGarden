@@ -3,6 +3,7 @@ import { MyLeaf } from './MyLeaf.js';
 import { MyPetal } from './MyPetal.js';
 import { MyReceptacle } from './MyReceptacle.js';
 import { MyStem } from './MyStem.js';
+import { MyPollen } from './MyPollen.js';
 
 /**
  * MyFlower
@@ -29,6 +30,9 @@ export class MyFlower extends CGFobject {
         this.stem_lengths = []; // holds the length of each stem to help with other objects transformations
         this.stems = []; // holds all stems
         this.leafs = [];
+
+        this.pollen = new MyPollen(this.scene, 10, 10, 0.5, 1, 2);
+
         this.leaf_side = [];
         for(let a = 0; a < this.stem_length; a++){
             this.stem_rotations.push(Math.floor(Math.random() * 10));
@@ -178,6 +182,12 @@ export class MyFlower extends CGFobject {
         this.scene.translate(this.new_x, hight, this.new_z);
         this.receptacleMaterial.apply();
         this.receptacle.display();
+        this.scene.popMatrix();
+
+        // pollen
+        this.scene.pushMatrix();
+        this.scene.translate(this.new_x, hight+1, this.new_z);
+        this.pollen.display();
         this.scene.popMatrix();
 
         // display petals
