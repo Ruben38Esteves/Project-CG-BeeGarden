@@ -21,7 +21,7 @@ export class MyScene extends CGFscene {
   }
   init(application) {
     super.init(application);
-    
+
     this.initCameras();
     this.initLights();
 
@@ -32,6 +32,10 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
+    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    this.gl.enable(this.gl.BLEND);
+
+    this.setUpdatePeriod(0.01);
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
@@ -41,21 +45,22 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, panoTexture);
     //flower
     this.petal = new MyPetal(this, 80, 4);
-    this.receptacle = new MyReceptacle(this, 3, 30,30);
+    this.receptacle = new MyReceptacle(this, 3, 30, 30);
     this.stem = new MyStem(this, 30, 30, 1);
-    this.flower = new MyFlower(this,5,8,1,0.2,3);
+    this.flower = new MyFlower(this, 5, 8, 1, 0.2, 3);
     this.leaf = new MyLeaf(this, 5, 2);
     this.garden = new MyGarden(this, 5, 5, 10);
     //this.rock = new MyRock(this, 10);
 
     //bee
-    this.bee = new MyBee(this);
+    this.bee = new MyBee(this,0,0,0,0);
 
-  
+
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
+    this.speedFactor = 0.1;
 
     this.enableTextures(true);
 
@@ -91,6 +96,48 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
+  checkKeys() {
+    var text = "Keys pressed: ";
+    var keysPressed = false;
+    // Check for key codes e.g. in https://keycode.info/
+
+    if (this.gui.isKeyPressed("KeyW")) {
+      this.bee.accelerate(this.speedFactor / 10);
+      text += " W ";
+      keysPressed = true;
+    }
+
+
+    if (this.gui.isKeyPressed("KeyS")) {
+      this.bee.stop();
+      text += " S ";
+      keysPressed = true;
+    }
+
+    if (this.gui.isKeyPressed("KeyA")) {
+      this.bee.turn(Math.PI/80);
+      text += " A ";
+      keysPressed = true;
+    }
+
+
+    if (this.gui.isKeyPressed("KeyD")) {
+      this.bee.turn(-Math.PI/80);
+      text += " D ";
+      keysPressed = true;
+    }
+
+    if (this.gui.isKeyPressed("KeyR")) {
+      text += " R ";
+      this.bee.reset();
+      keysPressed = true;
+    }
+
+    if (keysPressed){
+      console.log(text);
+    }
+
+  }
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -105,27 +152,36 @@ export class MyScene extends CGFscene {
     // Draw axis
     if (this.displayAxis) this.axis.display();
 
+    
+
     // ---- BEGIN Primitive drawing section
 
     this.pushMatrix();
     this.appearance.apply();
-    this.translate(0,-100,0);
-    this.scale(400,400,400);
-    this.rotate(-Math.PI/2.0,1,0,0);
+    this.translate(0, -100, 0);
+    this.scale(400, 400, 400);
+    this.rotate(-Math.PI / 2.0, 1, 0, 0);
     //this.plane.display();
     this.popMatrix();
 
 
-    
+
     this.panorama.display();
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
     //this.flower.display()
+    this.pushMatrix();
+    this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
     this.bee.display();
+    this.popMatrix();
     //this.leaf.display();
     //this.garden.display();
     //this.rock.display();
     // ---- END Primitive drawing section
+  }
+  update(delta_t){
+    this.checkKeys();
+    this.bee.update(delta_t);
   }
 }
