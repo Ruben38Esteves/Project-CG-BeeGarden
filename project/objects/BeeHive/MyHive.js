@@ -44,7 +44,7 @@ export class MyHive extends CGFobject {
         console.log(this.pollens.length);
         for (let pollen of this.pollens){
             this.scene.pushMatrix();
-            this.scene.translate(0, 0.9, 0.2*i);
+            this.scene.translate(0, 0.9, 0.1*i-0.3);
             this.scene.scale(0.05, 0.05, 0.05);
             pollen.display();
             this.scene.popMatrix();
