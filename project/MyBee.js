@@ -67,7 +67,7 @@ export class MyBee extends CGFobject {
         this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);
     }
 
-    update(delta_t){
+     update(delta_t){
         this.posx = this.posx + this.velx;// * delta_t;
         this.posy = this.posy + this.vely;// * delta_t;
         this.posz = this.posz + this.velz;// * delta_t;

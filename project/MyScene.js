@@ -36,7 +36,7 @@ export class MyScene extends CGFscene {
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.gl.enable(this.gl.BLEND);
 
-    this.setUpdatePeriod(0.01);
+    this.setUpdatePeriod(100);
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
@@ -69,7 +69,6 @@ export class MyScene extends CGFscene {
     this.initTextures();
 
 
-    this.setUpdatePeriod(50);
     this.appStartTime = Date.now();
 
   }
@@ -198,7 +197,7 @@ export class MyScene extends CGFscene {
     //this.leaf.display();
     //this.garden.display();
     //this.rockAppearance.apply();
-    // this.rockSet.display();
+    //this.rockSet.display();
     // ---- END Primitive drawing section
   }
   update(delta_t){
