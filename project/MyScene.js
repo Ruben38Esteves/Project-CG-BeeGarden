@@ -224,7 +224,7 @@ export class MyScene extends CGFscene {
     //this.bee.display();
     //this.popMatrix();
     //this.leaf.display();
-    this.garden.display();
+    //this.garden.display();
     //this.rockAppearance.apply();
     // this.rockSet.display();
     //this.rockAppearance.apply();
