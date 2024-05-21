@@ -1,5 +1,6 @@
 import {CGFobject, CGFappearance} from '../lib/CGF.js';
 import { MyTrapezoid } from './MyTrapezoid.js';
+import { MyTriangle } from './MyTriangle.js';
 /**
  * MyGrassLeaf
  * @constructor
@@ -15,9 +16,10 @@ export class MyGrassLeaf extends CGFobject {
 
     initObjects(){
         this.trapezoids = [];
-        for(let i = 0; i < 10 ; i++){
+        for(let i = 0; i < 5 ; i++){
             this.trapezoids.push(new MyTrapezoid(this.scene));
         }
+        this.trapezoids.push(new MyTriangle(this.scene));
     }
 
     initMaterials(){
@@ -26,8 +28,8 @@ export class MyGrassLeaf extends CGFobject {
         this.leafMaterial.setDiffuse(0,1,0, 1.0); 
         this.leafMaterial.setSpecular(0,1,0, 1.0); 
         this.leafMaterial.setShininess(10.0);
-        //this.leafMaterial.loadTexture('images/grasstext_1.jpg');
-        //this.leafMaterial.setTextureWrap('REPEAT','REPEAT');
+        this.leafMaterial.loadTexture('images/grasstext_1.jpg');
+        this.leafMaterial.setTextureWrap('REPEAT','REPEAT');
     }
 
     setAngle(angle){
@@ -38,7 +40,7 @@ export class MyGrassLeaf extends CGFobject {
 
         let height = 0;
         let move = 0;
-        for(let i = 0; i < 10 ; i++){
+        for(let i = 0; i < 6 ; i++){
             this.scene.pushMatrix();
             this.scene.translate(0,height,move);
             height = height + Math.cos(this.angle * i) * 2;

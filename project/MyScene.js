@@ -56,10 +56,10 @@ export class MyScene extends CGFscene {
     this.stem = new MyStem(this, 30, 30, 1);
     this.flower = new MyFlower(this, 5, 8, 1, 0.2, 3);
     this.leaf = new MyLeaf(this, 5, 2);
-    this.garden = new MyGarden(this, 5, 5, 10);
+    this.garden = new MyGarden(this, 6, 6, 10);
     this.trapezoid = new MyTrapezoid(this);
     this.grassleaf = new MyGrassLeaf(this,0.01);
-    this.grass = new MyGrass(this,50,50,10);
+    this.grass = new MyGrass(this,50,50,10,1000);
 
 
     this.rockSet = new MyRockSet(this);
@@ -214,7 +214,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();
     */
 
-    //this.panorama.display();
+    this.panorama.display();
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
@@ -224,7 +224,7 @@ export class MyScene extends CGFscene {
     //this.bee.display();
     //this.popMatrix();
     //this.leaf.display();
-    //this.garden.display();
+    this.garden.display();
     //this.rockAppearance.apply();
     // this.rockSet.display();
     //this.rockAppearance.apply();
