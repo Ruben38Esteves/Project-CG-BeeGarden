@@ -13,6 +13,9 @@ import { MyBee } from "./MyBee.js";
 import { MyRockSet } from "./MyRockSet.js";
 import { MyHive } from "./MyHive.js";
 import { MyPollen } from "./MyPollen.js";
+import { MyTrapezoid } from "./MyTrapezoid.js";
+import { MyGrassLeaf } from "./MyGrassLeaf.js";
+import { MyGrass } from "./MyGrass.js";
 
 /**
  * MyScene
@@ -39,6 +42,7 @@ export class MyScene extends CGFscene {
     this.gl.enable(this.gl.BLEND);
 
     this.setUpdatePeriod(0.01);
+    this.time = 0;
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
@@ -53,6 +57,9 @@ export class MyScene extends CGFscene {
     this.flower = new MyFlower(this, 5, 8, 1, 0.2, 3);
     this.leaf = new MyLeaf(this, 5, 2);
     this.garden = new MyGarden(this, 5, 5, 10);
+    this.trapezoid = new MyTrapezoid(this);
+    this.grassleaf = new MyGrassLeaf(this,0.01);
+    this.grass = new MyGrass(this,50,50,10);
 
 
     this.rockSet = new MyRockSet(this);
@@ -79,8 +86,6 @@ export class MyScene extends CGFscene {
 
     this.initTextures();
 
-
-    this.setUpdatePeriod(50);
     this.appStartTime = Date.now();
 
   }
@@ -196,7 +201,7 @@ export class MyScene extends CGFscene {
     //this.plane.display();
     this.popMatrix();
 
-
+    /*
     this.pushMatrix();
     this.rockAppearance.apply();
     this.rockSet.display();
@@ -207,17 +212,17 @@ export class MyScene extends CGFscene {
     this.scale(2,2,2);
     this.hive.display();
     this.popMatrix();
+    */
 
-
-    this.panorama.display();
+    //this.panorama.display();
     //this.receptacle.display();
     //this.petal.display();
     //this.stem.display();
     //this.flower.display()
-    this.pushMatrix();
-    this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
+    //this.pushMatrix();
+    //this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
     //this.bee.display();
-    this.popMatrix();
+    //this.popMatrix();
     //this.leaf.display();
     //this.garden.display();
     //this.rockAppearance.apply();
@@ -226,10 +231,15 @@ export class MyScene extends CGFscene {
     //this.rockSet.display();
     //this.hive.display();
     //this.pollen.display();
+    //this.trapezoid.display()
+    //this.grassleaf.display();
+    this.grass.display();
     // ---- END Primitive drawing section
   }
   update(delta_t){
+    this.time += 0.1;
     this.checkKeys();
     this.bee.update(delta_t);
+    this.grass.update(0.1*Math.sin(this.time));
   }
 }
