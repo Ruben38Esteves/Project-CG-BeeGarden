@@ -103,9 +103,9 @@ export class MyScene extends CGFscene {
     this.appearance = new CGFappearance(this);
     this.appearance.setTexture(this.texture);
     //make it lighter and brighter
-    this.appearance.setAmbient(0.5, 0.5, 0.5, 1);
-    this.appearance.setDiffuse(0.5, 0.5, 0.5, 1);
-    this.appearance.setSpecular(0.5, 0.5, 0.5, 1);
+    this.appearance.setAmbient(0.5, 1, 0.5, 1);
+    this.appearance.setDiffuse(0.5, 1, 0.5, 1);
+    this.appearance.setSpecular(0.5, 1, 0.5, 1);
     this.appearance.setShininess(10.0);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
