@@ -71,7 +71,6 @@ export class MyScene extends CGFscene {
 
     this.trapezoid = new MyTrapezoid(this);
     this.grassleaf = new MyGrassLeaf(this,0.01);
-    this.grass = new MyGrass(this,50,50,5);
 
     //rock
     this.rockTranslate = [-30, -30, 5];
@@ -306,7 +305,7 @@ export class MyScene extends CGFscene {
     this.garden.display();
     this.popMatrix();
     //this.rockAppearance.apply();
-    // this.rockSet.display();
+    //this.rockSet.display();
     //this.rockAppearance.apply();
     //this.rockSet.display();
     //this.hive.display();
@@ -314,6 +313,8 @@ export class MyScene extends CGFscene {
     //this.trapezoid.display()
     //this.grassleaf.display();
     this.pushMatrix();
+    
+    this.translate(5,-30, 7);
     this.grass.display();
     this.popMatrix();
     // ---- END Primitive drawing section

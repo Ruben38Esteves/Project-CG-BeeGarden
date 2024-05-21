@@ -310,6 +310,12 @@ export class MyBee extends CGFobject {
     }
 
     moveTo(x, y, z){
+        if(this.velx == 0){
+            this.velx = 0.1;
+        }
+        if(this.velz == 0){
+            this.velz = 0.1;
+        }
         this.oldVelx = this.velx;
         this.oldVelz = this.velz;
         this.targetX = x;
