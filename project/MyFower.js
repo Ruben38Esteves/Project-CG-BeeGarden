@@ -20,6 +20,10 @@ export class MyFlower extends CGFobject {
         this.stem_length = stem_length;
         this.initObjects();
         this.initMaterials();
+        this.hasPollen = true;
+        this.xInGarden = 0;
+        this.zInGarden = 0;
+        this.height = 0;
 	}
 
     initObjects(){
@@ -30,7 +34,8 @@ export class MyFlower extends CGFobject {
         this.stem_lengths = []; // holds the length of each stem to help with other objects transformations
         this.stems = []; // holds all stems
         this.leafs = [];
-
+        
+        //POLLEN
         this.pollen = new MyPollen(this.scene, 10, 10, 0.5, 1, 2);
 
         this.leaf_side = [];
@@ -133,20 +138,20 @@ export class MyFlower extends CGFobject {
     }
 
     display(){
-        let hight = 0;
+        let height = 0;
         this.new_x = 0;
         this.new_z = 0;
         // display stems
         if(this.stem_length > 1){
             this.scene.pushMatrix();
-            hight = this.stem_lengths[0];
+            height = this.stem_lengths[0];
             this.stemMaterial.apply();
             this.stems[0].display();
             this.scene.popMatrix();
             for(let i = 1; i < this.stem_length;i++){
                 // leaf
                 this.scene.pushMatrix();
-                this.scene.translate(this.new_x, hight, this.new_z);
+                this.scene.translate(this.new_x, height, this.new_z);
                 this.scene.rotate(this.leaf_side[i-1] * (Math.PI/2),0,0,1);
                 this.leafMaterial.apply();
                 this.leafs[i-1].display();
@@ -154,46 +159,50 @@ export class MyFlower extends CGFobject {
 
                 // stem
                 //  - pre calculations
-                hight -= (Math.sin(this.angle) * (this.stem_radius))
+                height -= (Math.sin(this.angle) * (this.stem_radius))
                 this.angle= this.degToRad(this.stem_rotations[i]);
-                hight -= (Math.sin(this.angle) * (this.stem_radius))
+                height -= (Math.sin(this.angle) * (this.stem_radius))
                 this.scene.pushMatrix();
-                this.scene.translate(this.new_x, hight ,this.new_z);
+                this.scene.translate(this.new_x, height ,this.new_z);
                 this.scene.rotate(this.angle,0,0,1);
                 this.scene.rotate(this.angle,1,0,0);
                 this.stemMaterial.apply();
                 this.stems[i].display();
                 this.scene.popMatrix();
                 //  - after display calculations
-                hight +=  (this.stem_lengths[i] * Math.cos(this.angle) * Math.cos(this.angle));
+                height +=  (this.stem_lengths[i] * Math.cos(this.angle) * Math.cos(this.angle));
                 this.new_x -= this.stem_lengths[i] * Math.sin(this.angle) * Math.cos(this.angle);
                 this.new_z += this.stem_lengths[i] *  Math.sin(this.angle);
             }
         }else{
             this.scene.pushMatrix();
-            hight = this.stem_lengths[0];
+            height = this.stem_lengths[0];
             this.stemMaterial.apply();
             this.stems[0].display();
             this.scene.popMatrix();
         }
+
+        this.height = height;
         
         // display receptacle
         this.scene.pushMatrix();
-        this.scene.translate(this.new_x, hight, this.new_z);
+        this.scene.translate(this.new_x, height, this.new_z);
         this.receptacleMaterial.apply();
         this.receptacle.display();
         this.scene.popMatrix();
 
         // pollen
-        this.scene.pushMatrix();
-        this.scene.translate(this.new_x, hight+1, this.new_z);
-        this.pollen.display();
-        this.scene.popMatrix();
+        if (this.hasPollen){
+            this.scene.pushMatrix();
+            this.scene.translate(this.new_x, height+1, this.new_z);
+            this.pollen.display();
+            this.scene.popMatrix();
+        }
 
         // display petals
         for(let j = 0; j < this.petal_amount; j++){
             this.scene.pushMatrix();
-            this.scene.translate(this.new_x, hight, this.new_z);
+            this.scene.translate(this.new_x, height, this.new_z);
             this.scene.rotate((((2*Math.PI)/this.petal_amount)*j)+this.initial_petal_rotation,0,0,1);
             this.scene.translate(0,this.receptacle_radius,0);
             this.scene.rotate(this.degToRad(this.petal_rotations[j]),1,0,0);
@@ -202,6 +211,14 @@ export class MyFlower extends CGFobject {
             this.scene.popMatrix();
         }
     
+    }
+
+    getPollen() {
+        return this.pollen;
+    }
+
+    getPollenPos() {
+        return {x: this.new_x, y: this.height+1, z: this.new_z};
     }
 
     enableNormalViz(){

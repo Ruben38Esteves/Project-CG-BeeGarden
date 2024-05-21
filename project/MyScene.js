@@ -62,22 +62,29 @@ export class MyScene extends CGFscene {
     this.grass = new MyGrass(this,50,50,10,1000);
 
 
+
+    //garden
+    this.gardenTranslate = [5, -15, 6];
+    this.gardenScale = 0.2;
+    this.garden = new MyGarden(this, 5, 5, 10);
+
+
+    this.trapezoid = new MyTrapezoid(this);
+    this.grassleaf = new MyGrassLeaf(this,0.01);
+    this.grass = new MyGrass(this,50,50,5);
+
+    //rock
+    this.rockTranslate = [-10, -15, 5];
     this.rockSet = new MyRockSet(this);
     this.rock = new MyRock(this, 15, 15, 2);
 
+
+    //hive
+    this.hive = new MyHive(this);
+    this.pollen = new MyPollen(this, 10, 10, 1, 2, 1);
+
     //bee
-    this.bee = new MyBee(this,0,0,0,0);
-
-
-    //hive
-    this.hive = new MyHive(this);
-    this.pollen = new MyPollen(this, 10, 10, 1, 2, 1);
-
-    //hive
-    this.hive = new MyHive(this);
-    this.pollen = new MyPollen(this, 10, 10, 1, 2, 1);
-
-
+    this.bee = new MyBee(this,0,0,0,0,this.hive);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -170,11 +177,71 @@ export class MyScene extends CGFscene {
       keysPressed = true;
     }
 
+    if (this.gui.isKeyPressed("KeyP")) {
+      text += " P ";
+      let flower = this.bee.currentFlower;
+      if (flower){
+        flower.hasPollen = false;
+        this.bee.carryingPollen = true;
+        this.bee.pollen = flower.getPollen();
+        this.bee.currentFlower = null;
+        this.bee.keepMoving();
+      } else {
+        this.bee.keepMoving();
+      }
+
+    }
+
+    if (this.gui.isKeyPressed("KeyO")) {
+      text += " O ";
+      if (this.bee.carryingPollen){
+        this.bee.movingHive = true;
+        this.bee.moveTo(this.rockTranslate[0]+2, this.rockTranslate[1]+7, this.rockTranslate[2]+1)
+      }
+    }
+
+    if (this.gui.isKeyPressed("KeyF")) {
+      text += " F ";
+      let closestDistance = 10000;
+      let closestFlower = null;
+      let xCloPol = 0;
+      let yCloPol = 0;
+      let zCloPol = 0;
+
+      for (let flower of this.garden.flowers){
+        if (!flower.hasPollen){
+          continue;
+        }
+        let xGarden = flower.xInGarden * this.gardenScale;
+        let zGarden = flower.zInGarden * this.gardenScale;
+        let pollenPos = flower.getPollenPos();
+        let xPollenAbsolut = xGarden + this.gardenTranslate[0] + (pollenPos.x * this.gardenScale);
+        console.log("altura flower", flower.height);
+        let yPollenAbsolut = this.gardenTranslate[1] + (flower.height * this.gardenScale);
+        let zPollenAbsolut = zGarden + this.gardenTranslate[2] + (pollenPos.z * this.gardenScale);
+        let distanceToBee = this.bee.distance(xPollenAbsolut, yPollenAbsolut, zPollenAbsolut);
+        console.log("distance to bee", distanceToBee)
+        if (distanceToBee < closestDistance){
+          closestDistance = distanceToBee;
+          closestFlower = flower;
+          xCloPol = xPollenAbsolut;
+          yCloPol = yPollenAbsolut;
+          zCloPol = zPollenAbsolut;
+        }
+
+      }
+      this.bee.currentFlower = closestFlower;
+      this.bee.moving = true;
+      this.bee.moveTo(xCloPol, yCloPol, zCloPol);  
+
+    }
+
     if (keysPressed){
       console.log(text);
     }
 
   }
+
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -195,24 +262,25 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.appearance.apply();
-    this.translate(0, -10, 0);
+    this.translate(0, -15, 0);
     this.scale(400, 400, 400);
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
-    //this.plane.display();
+    this.plane.display();
     this.popMatrix();
 
-    /*
+    
     this.pushMatrix();
     this.rockAppearance.apply();
+    this.translate(this.rockTranslate[0], this.rockTranslate[1], this.rockTranslate[2]);
     this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(2, 4, 1);
+    this.translate(this.rockTranslate[0]+2, this.rockTranslate[1]+4, this.rockTranslate[2]+1);
     this.scale(2,2,2);
     this.hive.display();
     this.popMatrix();
-    */
+    
 
     this.panorama.display();
     //this.receptacle.display();
@@ -221,10 +289,14 @@ export class MyScene extends CGFscene {
     //this.flower.display()
     //this.pushMatrix();
     //this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
-    //this.bee.display();
+    this.bee.display();
     //this.popMatrix();
     //this.leaf.display();
-    //this.garden.display();
+    this.pushMatrix();
+    this.translate(this.gardenTranslate[0], this.gardenTranslate[1], this.gardenTranslate[2]);
+    this.scale(this.gardenScale, this.gardenScale, this.gardenScale);
+    this.garden.display();
+    this.popMatrix();
     //this.rockAppearance.apply();
     // this.rockSet.display();
     //this.rockAppearance.apply();
@@ -233,7 +305,7 @@ export class MyScene extends CGFscene {
     //this.pollen.display();
     //this.trapezoid.display()
     //this.grassleaf.display();
-    this.grass.display();
+    //this.grass.display();
     // ---- END Primitive drawing section
   }
   update(delta_t){

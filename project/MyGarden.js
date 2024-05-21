@@ -30,6 +30,12 @@ export class MyGarden extends CGFobject {
                 this.scene.translate(j * this.spacing,0, i * this.spacing);
                 //this.scene.rotate(this.flowerRotations[i * this.rows + j],0,1,0);
                 this.flowers[(i * this.cols) + j].display();
+                //console.log((i * this.cols) + j);
+                let flower = this.flowers[(i * this.cols) + j];
+                flower.xInGarden = j * this.spacing;
+                flower.zInGarden = i * this.spacing;
+                //console.log(flower.xInGarden, flower.zInGarden);
+                flower.display();
                 this.scene.popMatrix();
             }
         }
