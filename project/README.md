@@ -36,7 +36,8 @@ The hive is a box Hive, with different textures for the respective faces. When t
 
 ![Screenshot 11](screenshots/project-t12-g06-5b.png)
 ![Screenshot 12](screenshots/project-t12-g06-5e.png)
+![Screenshot 12](screenshots/project-t12-g06-5c.png)
 
 The grass is composed of trapezoids. We alter their rotation to givec the impression of a waving movement
 
-![Screenshot 13](screenshots/project-t12-g06-7.png)
+![Screenshot 14](screenshots/project-t12-g06-7.png)
