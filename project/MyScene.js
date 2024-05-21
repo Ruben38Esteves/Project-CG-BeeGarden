@@ -1,21 +1,21 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyFlower } from "./MyFower.js";
-import { MyGarden } from "./MyGarden.js";
-import { MyLeaf } from "./MyLeaf.js";
-import { MyPetal } from "./MyPetal.js";
-import { MyPlane } from "./MyPlane.js";
-import { MyReceptacle } from "./MyReceptacle.js";
-import { MyRock } from "./MyRock.js";
-import { MySphere } from "./MySphere.js";
-import { MyStem } from "./MyStem.js";
+import { MyFlower } from "./flower/MyFower.js";
+import { MyGarden } from "./objects/Garden/MyGarden.js";
+import { MyLeaf } from "./objects/Garden/MyLeaf.js";
+import { MyPetal } from "./objects/Garden/MyPetal.js";
+import { MyPlane } from "./objects/Components/MyPlane.js";
+import { MyReceptacle } from "./objects/Garden/MyReceptacle.js";
+import { MyRock } from "./objects/RockSet/MyRock.js";
+import { MySphere } from "./objects/Components/MySphere.js";
+import { MyStem } from "./objects/Garden/MyStem.js";
 import { MyPanorama } from "./myPanorama.js";
-import { MyBee } from "./MyBee.js";
-import { MyRockSet } from "./MyRockSet.js";
-import { MyHive } from "./MyHive.js";
-import { MyPollen } from "./MyPollen.js";
-import { MyTrapezoid } from "./MyTrapezoid.js";
-import { MyGrassLeaf } from "./MyGrassLeaf.js";
-import { MyGrass } from "./MyGrass.js";
+import { MyBee } from "./objects/BeeHive/MyBee.js";
+import { MyRockSet } from "./objects/RockSet/MyRockSet.js";
+import { MyHive } from "./objects/BeeHive/MyHive.js";
+import { MyPollen } from "./objects/BeeHive/MyPollen.js";
+import { MyTrapezoid } from "./objects/Components/MyTrapezoid.js";
+import { MyGrassLeaf } from "./objects/Garden/MyGrassLeaf.js";
+import { MyGrass } from "./objects/Garden/MyGrass.js";
 
 /**
  * MyScene
@@ -64,8 +64,8 @@ export class MyScene extends CGFscene {
 
 
     //garden
-    this.gardenTranslate = [5, -15, 6];
-    this.gardenScale = 0.2;
+    this.gardenTranslate = [15, -30, 20];
+    this.gardenScale = 0.7;
     this.garden = new MyGarden(this, 5, 5, 10);
 
 
@@ -74,7 +74,7 @@ export class MyScene extends CGFscene {
     this.grass = new MyGrass(this,50,50,5);
 
     //rock
-    this.rockTranslate = [-10, -15, 5];
+    this.rockTranslate = [-30, -30, 5];
     this.rockSet = new MyRockSet(this);
     this.rock = new MyRock(this, 15, 15, 2);
 
@@ -100,9 +100,14 @@ export class MyScene extends CGFscene {
   initTextures() {
     this.enableTextures(true);
 
-    this.texture = new CGFtexture(this, "images/terrain.jpg");
+    this.texture = new CGFtexture(this, "images/grass.jpg");
     this.appearance = new CGFappearance(this);
     this.appearance.setTexture(this.texture);
+    //make it lighter and brighter
+    this.appearance.setAmbient(0.5, 0.5, 0.5, 1);
+    this.appearance.setDiffuse(0.5, 0.5, 0.5, 1);
+    this.appearance.setSpecular(0.5, 0.5, 0.5, 1);
+    this.appearance.setShininess(10.0);
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     this.earthTexture = new CGFtexture(this, "images/earth.jpg");
@@ -134,23 +139,23 @@ export class MyScene extends CGFscene {
       vec3.fromValues(0, 0, 0)
     );
   }
+
   setDefaultAppearance() {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
+
   checkKeys() {
     var text = "Keys pressed: ";
     var keysPressed = false;
-    // Check for key codes e.g. in https://keycode.info/
 
     if (this.gui.isKeyPressed("KeyW")) {
       this.bee.accelerate(this.speedFactor / 10);
       text += " W ";
       keysPressed = true;
     }
-
 
     if (this.gui.isKeyPressed("KeyS")) {
       this.bee.stop();
@@ -196,7 +201,7 @@ export class MyScene extends CGFscene {
       text += " O ";
       if (this.bee.carryingPollen){
         this.bee.movingHive = true;
-        this.bee.moveTo(this.rockTranslate[0]+2, this.rockTranslate[1]+7, this.rockTranslate[2]+1)
+        this.bee.moveTo(this.rockTranslate[0]+5, this.rockTranslate[1]+22, this.rockTranslate[2]+3)
       }
     }
 
@@ -230,7 +235,9 @@ export class MyScene extends CGFscene {
         }
 
       }
-      this.bee.currentFlower = closestFlower;
+      if (!this.bee.carryingPollen){
+        this.bee.currentFlower = closestFlower;
+      }
       this.bee.moving = true;
       this.bee.moveTo(xCloPol, yCloPol, zCloPol);  
 
@@ -262,7 +269,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.appearance.apply();
-    this.translate(0, -15, 0);
+    this.translate(0, -30, 0);
     this.scale(400, 400, 400);
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.plane.display();
@@ -272,12 +279,13 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.rockAppearance.apply();
     this.translate(this.rockTranslate[0], this.rockTranslate[1], this.rockTranslate[2]);
+    this.scale(3, 3, 3);
     this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(this.rockTranslate[0]+2, this.rockTranslate[1]+4, this.rockTranslate[2]+1);
-    this.scale(2,2,2);
+    this.translate(this.rockTranslate[0]+5, this.rockTranslate[1]+13, this.rockTranslate[2]+3);
+    this.scale(8,8,8);
     this.hive.display();
     this.popMatrix();
     
@@ -305,7 +313,9 @@ export class MyScene extends CGFscene {
     //this.pollen.display();
     //this.trapezoid.display()
     //this.grassleaf.display();
-    //this.grass.display();
+    this.pushMatrix();
+    this.grass.display();
+    this.popMatrix();
     // ---- END Primitive drawing section
   }
   update(delta_t){

@@ -1,6 +1,6 @@
-import {CGFobject, CGFappearance} from '../lib/CGF.js';
-import { MyTrapezoid } from './MyTrapezoid.js';
-import { MyTriangle } from './MyTriangle.js';
+import {CGFobject, CGFappearance} from '../../../lib/CGF.js';
+import { MyTrapezoid } from '../Components/MyTrapezoid.js';
+import { MyTriangle } from '../Components/MyTriangle.js';
 /**
  * MyGrassLeaf
  * @constructor

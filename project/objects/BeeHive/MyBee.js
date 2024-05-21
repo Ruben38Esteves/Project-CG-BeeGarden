@@ -1,8 +1,8 @@
-import {CGFobject, CGFappearance} from '../lib/CGF.js';
+import {CGFobject, CGFappearance} from '../../../lib/CGF.js';
 import { MyAntenna } from './MyAntenna.js';
 import { MySphereBee } from './MySphereBee.js';
-import { MySphere } from './MySphere.js';
-import { MyEllipse } from './MyEllipse.js';
+import { MySphere } from '../Components/MySphere.js';
+import { MyEllipse } from '../Components/MyEllipse.js';
 import { MyHive } from './MyHive.js';
 /**
  * MyDiamond

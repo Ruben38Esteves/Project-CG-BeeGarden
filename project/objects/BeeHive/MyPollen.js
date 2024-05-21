@@ -1,4 +1,4 @@
-import { CGFobject, CGFappearance, CGFtexture } from '../../lib/CGF.js';
+import { CGFobject, CGFappearance, CGFtexture } from '../../../lib/CGF.js';
 
 export class MyPollen extends CGFobject {
     constructor(scene, slices, stacks, radius, yScaleTop = 1, yScaleBottom = 1) {

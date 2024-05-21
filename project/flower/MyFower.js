@@ -1,9 +1,9 @@
-import {CGFobject, CGFappearance, CGFtexture} from '../lib/CGF.js';
-import { MyLeaf } from './MyLeaf.js';
-import { MyPetal } from './MyPetal.js';
-import { MyReceptacle } from './MyReceptacle.js';
-import { MyStem } from './MyStem.js';
-import { MyPollen } from './MyPollen.js';
+import {CGFobject, CGFappearance, CGFtexture} from '../../lib/CGF.js';
+import { MyLeaf } from '../objects/Garden/MyLeaf.js';
+import { MyPetal } from '../objects/Garden/MyPetal.js';
+import { MyReceptacle } from '../objects/Garden/MyReceptacle.js';
+import { MyStem } from '../objects/Garden/MyStem.js';
+import { MyPollen } from '../objects/BeeHive/MyPollen.js';
 
 /**
  * MyFlower

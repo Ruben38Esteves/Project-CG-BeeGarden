@@ -1,6 +1,6 @@
-import {CGFobject, CGFappearance, CGFtexture} from '../lib/CGF.js';
-import { MyUnitCubeQuad } from './MyUnitCubeQuad.js';
-import { MyUnitCube } from './MyUnitCube.js';
+import {CGFobject, CGFappearance, CGFtexture} from '../../../../lib/CGF.js';
+import { MyUnitCubeQuad } from '../Components/MyUnitCubeQuad.js';
+import { MyUnitCube } from '../Components/MyUnitCube.js';
 import { MyPollen } from './MyPollen.js';
 
 export class MyHive extends CGFobject {
@@ -44,8 +44,8 @@ export class MyHive extends CGFobject {
         console.log(this.pollens.length);
         for (let pollen of this.pollens){
             this.scene.pushMatrix();
-            this.scene.scale(0.2, 0.2, 0.2);
-            this.scene.translate(0, 4.5, i-2);
+            this.scene.translate(0, 0.9, 0.2*i);
+            this.scene.scale(0.05, 0.05, 0.05);
             pollen.display();
             this.scene.popMatrix();
             i++;

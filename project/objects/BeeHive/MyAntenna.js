@@ -1,6 +1,6 @@
-import {CGFobject, CGFappearance} from '../lib/CGF.js';
-import { MySphere } from './MySphere.js';
-import { MyCylinder } from './myCylinder.js';
+import {CGFobject, CGFappearance} from '../../../lib/CGF.js';
+import { MySphere } from '../Components/MySphere.js';
+import { MyCylinder } from '../Components/myCylinder.js';
 
 export class MyAntenna extends CGFobject {
     constructor(scene) {

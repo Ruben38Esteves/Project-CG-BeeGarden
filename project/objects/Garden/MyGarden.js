@@ -1,5 +1,5 @@
-import {CGFobject} from '../lib/CGF.js';
-import { MyFlower } from './MyFower.js';
+import {CGFobject} from '../../../lib/CGF.js';
+import { MyFlower } from '../../flower/MyFower.js';
 /**
  * MyGarden
  * @constructor
